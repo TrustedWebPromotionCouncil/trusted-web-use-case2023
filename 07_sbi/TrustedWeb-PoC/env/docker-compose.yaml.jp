@@ -1,0 +1,110 @@
+version: "3"
+services:
+  web:
+    image: node:20.2-alpine3.17
+    container_name: ttw-web
+    working_dir: /usr/src/app
+    tty: true
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+      - SESSION_SECRET="b9092e7ca5d5a8890a9132437982f5c7"
+      - DATABASE_URL=postgres://postgres:postgres@ttw-pg/ttw_dev
+      - AUTHORITY_API_URL=http://ttw-api:8080
+      - VC_API_URL=http://uat.detc.link:8090
+      - GIT_COMMIT_SHORT_HASH=hoge
+      - MOCK_UPSTREAM_URL_BASE=http://facade-mock:4010
+      - BRP_DEV_UPSTREAM_URL_BASE=http://dev.detc.link
+      - BRP_UAT_UPSTREAM_URL_BASE=http://uat.detc.link
+      - USE_CORDA_MOCK=
+      - USE_CORDA_DEV=
+      - USE_CORDA_UAT=1
+    ports:
+      - 3000:3000
+      - 3001:3001
+    volumes:
+      - ./web/:/usr/src/app
+      - ./corda-facade-openapi/:/usr/src/corda-facade-openapi
+      - ./openapi/:/usr/src/openapi
+    command: >
+      ash -c "apk update &&
+      apk upgrade &&
+      apk add --no-cache make gcc g++ python3 &&
+      yarn install &&
+      yarn db:migrate && yarn db:seed -o &&
+      yarn apitypegen &&
+      yarn dev"
+  pg:
+    image: postgres:11-alpine
+    container_name: ttw-pg
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=ttw_dev
+    volumes:
+      - ./initdb:/docker-entrypoint-initdb.d
+      - ./pg-data:/var/lib/postgresql/data
+  openapi:
+    image: redocly/redoc:latest
+    container_name: ttw-openapi
+    ports:
+      - 8081:80
+    volumes:
+      - ./openapi/openapi.yaml:/usr/share/nginx/html/openapi.yaml:ro
+    environment:
+      SPEC_URL: openapi.yaml
+  openapi-swagger:
+    image: swaggerapi/swagger-ui:v5.3.1
+    container_name: ttw-openapi-swagger
+    ports:
+      - 8087:8080
+    volumes:
+      - ./openapi/openapi.yaml:/tmp/openapi.yml
+    environment:
+      SWAGGER_JSON: /tmp/openapi.yml
+  api-mock:
+    image: stoplight/prism:4
+    container_name: ttw-api-mock
+    command: "mock -h 0.0.0.0 /tmp/openapi.yaml"
+    volumes:
+      - ./openapi/openapi.yaml:/tmp/openapi.yaml:ro
+    ports:
+      # Serve the mocked API locally as available on port 8082
+      - "8082:4010"
+  facade-api:
+    image: swaggerapi/swagger-ui:v5.3.1
+    ports:
+      - "8083:8080"
+    volumes:
+      - ./corda-facade-openapi/openapi.yml:/tmp/openapi.yml
+    environment:
+      SWAGGER_JSON: /tmp/openapi.yml
+  facade-mock:
+    image: stoplight/prism
+    ports:
+      - "8085:4010"
+    volumes:
+      - ./corda-facade-openapi/openapi.yml:/tmp/openapi.yml
+    command: "mock -h 0.0.0.0 /tmp/openapi.yml"
+  api:
+    platform: linux/amd64
+    image: eclipse-temurin:17-alpine
+    container_name: ttw-api
+    environment:
+      - "DATABASE_URL=${JDBC_DATABASE_URL:-jdbc:postgresql://ttw-pg/ttw_dev?user=postgres&password=postgres}"
+      - "API_DEVELOPMENT=true"
+      - "UUID_URL=http://uat.detc.link:8088/brp/corda/revocation/vc"
+      - "KEY_NAME_URL=http://uat.detc.link:8090/api/keyName4AuthOrg"
+      - "VC_JSON_LIST_URL=http://uat.detc.link:8088/brp/corda/vc-json-list"
+      - "VP_URL=http://uat.detc.link:8090/api/vp"
+      - "VC_URL=http://uat.detc.link:8090/api/vc"
+      - "REVOCATION_BASE_URL=http://uat.detc.link:8086/brp/corda/revocation"
+      - "REVOCATION_ENDPOINTS=http://uat.detc.link:3001/revoke-1/vc-status/{uuid},http://uat.detc.link:3001/revoke-2/vc-status/{uuid}"
+    ports:
+      - "8086:8080"
+    volumes:
+      - ./:/opt/TrustedWeb-PoC
+      - ./api/.docker_gradle_caches:/root/.gradle/caches
+    working_dir: /opt/TrustedWeb-PoC/api
+    command: "./gradlew run"

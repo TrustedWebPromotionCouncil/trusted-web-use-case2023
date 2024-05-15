@@ -1,0 +1,42 @@
+// 解像度一覧
+// アスペクト比 => 実績
+// FYI: https://www.note-pc.biz/trable/lcd/resolution-display-list.html
+
+// マイナー解像度（ノートPCなど）
+// 4:3 => Windows95
+$SVGA: (
+  width: 800px,
+  height: 600px,
+);
+// 16:10 => Windows XP
+$WXGA: (
+  width: 1280px,
+  height: 800px,
+);
+// 16:9
+$WXGA_PP: (
+  width: 1600px,
+  height: 900px,
+);
+// 4:3 => Windows XP
+$UXGA: (
+  width: 1600px,
+  height: 1200px,
+);
+// 16:10 => ちょっと良いノートPC
+$WUXGA: (
+  width: 1920px,
+  height: 1200px,
+);
+
+// 標準の解像度（主なディスプレイ解像度）
+// 16:9 => 標準的なモニター
+$FHD: (
+  width: 1920px,
+  height: 1080px,
+);
+// 16:9 => PG, ゲーマ御用達
+$WQHD: (
+  width: 2560px,
+  height: 1440px,
+);

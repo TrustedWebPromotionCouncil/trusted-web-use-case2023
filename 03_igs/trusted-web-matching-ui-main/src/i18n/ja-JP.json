@@ -1,0 +1,86 @@
+{
+  "HEADER": {
+    "HOME": "ホーム",
+    "MESSAGE": "メッセージ"
+  },
+  "SUBTITLE": {
+    "CANDIDATE_SCATTER_PLOT": "候補者散布図",
+    "CANDIDATE_LIST": "候補者一覧",
+    "CANDIDATE_LIST_SUPPLEMENT_VALUE": "（候補者を{total}件表示",
+    "ABILITY_LEVEL": "能力レベル",
+    "SELF_INTRODUCTION": "自己紹介",
+    "HARDSKILL": "ハードスキル",
+    "SOFTSKILL": "ソフトスキル"
+  },
+  "CANDIDATE_SCATTER_PLOT": {
+    "LOWEST_DESIRED_ANNUAL_INCOME": "最低希望年収",
+    "COMPREHENSIVE_ABILITY_SCORE": "総合能力スコア"
+  },
+  "CANDIDATE_LIST": {
+    "SORT": "並び替え",
+    "SORT_TYPE": {
+      "ABILITY": "能力スコア",
+      "HARDSKILL": "ハードスキル",
+      "SOFTSKILL": "ソフトスキル",
+      "DESIRED_SALARY": "希望年収",
+      "OFFER_COUNT": "オファー数"
+    },
+    "PAGINATION": "件ずつ表示",
+    "ABILITY_TYPE": {
+      "BALANCED": "指定なし",
+      "HARDSKILL": "ハードスキル",
+      "SOFTSKILL": "ソフトスキル"
+    }
+  },
+  "UNIT_VALUE": "{value}万",
+  "BUTTON": {
+    "DETAIL": "プロフィール詳細",
+    "OFFER": "オファー",
+    "LIKE": "Like",
+    "SEND": "送信する",
+    "CANCEL": "キャンセル",
+    "CLOSE": "閉じる"
+  },
+  "TABLE_HEADER": {
+    "AGE": "年齢",
+    "GENDER": "性別",
+    "RESIDENCE": "居住地",
+    "OFFER_AMOUNT": "オファー金額",
+    "LIKE_COUNT": "Like数",
+    "OFFER_COUNT": "オファー数",
+    "OPERATION": "操作"
+  },
+  "TABS": {
+    "PROFILE": "プロフィール",
+    "OFFER": "オファー"
+  },
+  "GRAPH_LABEL": {
+    "HARDSKILL1": "知識",
+    "HARDSKILL2": "職務経験 / 責任感",
+    "SOFTSKILL1": "認知 / 自己",
+    "SOFTSKILL2": "他者 / コミュニティ",
+    "SOFTSKILL3": "授業態度",
+    "SOFTSKILL4": "バイアス / マナー等",
+    "SOFTSKILL5": "幸福 / 従事"
+  },
+  "GENDER": {
+    "MALE": "男性",
+    "FEMALE": "女性",
+    "OTHER": "その他"
+  },
+  "PLACEHOLDER": {
+    "EMAIL": "メールアドレス",
+    "MESSAGE": "メッセージ"
+  },
+  "VALIDATE": {
+    "VALUE_REQUIRED": "{value}を入力してください。",
+    "VALUE_FORMAT": "{value}の形式が違います。",
+    "VALUE_LIMIT": "{value}文字以下で入力してください。"
+  },
+  "MESSAGE": {
+    "SEND_LIKE": "Likeしました。",
+    "OFFER_CONFIRM": "以下の内容でオファーします。",
+    "COMPLETED": "送信が完了しました。"
+  },
+  "NOT_AVAILABLE": "N/A"
+}

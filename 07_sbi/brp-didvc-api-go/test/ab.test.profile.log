@@ -1,0 +1,63 @@
+# runtime.MemStats
+# Alloc = 2410608
+# TotalAlloc = 115258232
+# Sys = 20034824
+# Lookups = 0
+# Mallocs = 1349602
+# Frees = 1335992
+# HeapAlloc = 2410608
+# HeapSys = 11272192
+# HeapIdle = 5447680
+# HeapInuse = 5824512
+# HeapReleased = 4972544
+# HeapObjects = 13610
+# Stack = 1310720 / 1310720
+# MSpan = 170080 / 212160
+# MCache = 7200 / 15600
+# BuckHashSys = 1493989
+# GCSys = 4483424
+# OtherSys = 1246739
+# NextGC = 5096688
+# LastGC = 1686290159394722709
+# PauseNs = [15500 84999 1434500 44874 74917 219541 65126 104000 88250 34374 167125 34916 41375 99709 24874 114667 103832 57125 121874 41417 47875 17207 24292 108167 70208 21209 75000 115126 101792 84708 40750 18166 46917 114291 80125 57000 17333 29959 81292 81500 108625 120625 22958 16584 26292 65833 48917 92874 64043 27751 66291 270959 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
+# PauseEnd = [1686289941119173761 1686289941121784969 1686289976367264346 1686289976433251013 1686289976515259846 1686289976615282972 1686289976699458347 1686289976787767888 1686289976880027263 1686289976960959638 1686289977063272638 1686289977149496680 1686289977254304222 1686289977347428722 1686289977411797305 1686289977460044389 1686289977557422472 1686289977638210472 1686289977732296472 1686289977821357764 1686289977907162125 1686289977988809666 1686289978075922416 1686289978167475083 1686289978252153583 1686289978330709291 1686289978405048583 1686290020143020339 1686290020247178464 1686290020345710797 1686290020436335880 1686290020514755339 1686290020594425381 1686290020679667589 1686290020773601256 1686290020849747464 1686290020935120297 1686290021019252422 1686290021105511797 1686290021187990131 1686290021261292756 1686290021348886714 1686290021441561506 1686290021522432256 1686290021598222589 1686290021675999173 1686290021754960964 1686290021837761714 1686290021918036506 1686290022002130631 1686290022065118798 1686290159394722709 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
+# NumGC = 52
+# NumForcedGC = 0
+# GCCPUFraction = 5.435994776287866e-05
+# DebugGC = false
+# MaxRSS = 25645056
+
+
+
+------------
+
+
+The numbers in the gin profiling output you provided are as follows:
+
+Alloc: The total amount of memory that has been allocated by the Go program.
+TotalAlloc: The total amount of memory that has ever been allocated by the Go program, even if it has been freed since then.
+Sys: The total amount of memory that has been allocated by the Go program from the operating system.
+Lookups: The number of times that the garbage collector has looked for objects in the heap.
+Mallocs: The number of times that the garbage collector has allocated new objects on the heap.
+Frees: The number of times that the garbage collector has freed objects from the heap.
+HeapAlloc: The amount of memory that has been allocated on the heap.
+HeapSys: The total amount of memory that has been allocated by the heap, including memory that is currently in use and memory that is unused.
+HeapIdle: The amount of memory that is currently unused on the heap.
+HeapInuse: The amount of memory that is currently in use on the heap.
+HeapReleased: The amount of memory that has been freed from the heap.
+HeapObjects: The number of objects that are currently on the heap.
+Stack: The amount of memory that is currently being used by the stack.
+MSpan: The number of memory segments that are currently in use.
+MCache: The number of memory cache entries that are currently in use.
+BuckHashSys: The amount of memory that is currently being used by the hash table that is used to store the memory segments.
+GCSys: The amount of time that has been spent by the garbage collector.
+OtherSys: The amount of time that has been spent by other system calls, such as file I/O.
+NextGC: The estimated amount of time that it will be until the next garbage collection.
+LastGC: The time at which the last garbage collection occurred.
+PauseNs: The list of pauses that have occurred during garbage collection. Each pause is represented by a pair of numbers, the first of which is the duration of the pause in nanoseconds and the second of which is the time at which the pause occurred.
+PauseEnd: The list of times at which the pauses that are listed in the PauseNs field ended.
+NumGC: The number of garbage collections that have occurred.
+NumForcedGC: The number of garbage collections that have been forced, such as by a call to the runtime.GC() function.
+GCCPUFraction: The fraction of CPU time that has been spent by the garbage collector.
+DebugGC: A boolean value that indicates whether or not the garbage collector is in debug mode.
+MaxRSS: The maximum resident set size of the Go program. The resident set size is the amount of physical memory that is currently being used by the program.

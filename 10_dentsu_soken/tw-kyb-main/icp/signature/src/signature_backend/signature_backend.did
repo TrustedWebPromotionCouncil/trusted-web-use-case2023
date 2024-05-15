@@ -1,0 +1,40 @@
+type ExpectedActual = record { actual : text; expected : text };
+type PublicKeyRequestBody = record { token : text };
+type PublicKeyResponseBody = record { pub_key : text };
+type RawHttpRequest = record {
+  url : text;
+  method : text;
+  body : vec nat8;
+  headers : vec record { text; text };
+};
+type RawHttpResponse = record {
+  body : vec nat8;
+  headers : vec record { text; text };
+  upgrade : opt bool;
+  status_code : nat16;
+};
+type Result = variant { Ok : PublicKeyResponseBody; Err : SignatureError };
+type Result_1 = variant { Ok : SignResponseBody; Err : SignatureError };
+type SignRequestBody = record { token : text; message_hash : text };
+type SignResponseBody = record { signature : text };
+type SignatureError = variant {
+  IdTokenNotThreeParts;
+  IatFuture : nat64;
+  IdTokenExpired : nat64;
+  KidNotFound : text;
+  AuthTimeFuture : nat64;
+  InvalidAlg : ExpectedActual;
+  InvalidAud : ExpectedActual;
+  InvalidIss : ExpectedActual;
+  VerifyError : text;
+  ICError : text;
+  SerdeError : text;
+  SubEmpty;
+  Base64Error : text;
+};
+service : {
+  http_request : (RawHttpRequest) -> (RawHttpResponse) query;
+  http_request_update : (RawHttpRequest) -> (RawHttpResponse);
+  public_key : (PublicKeyRequestBody) -> (Result);
+  sign : (SignRequestBody) -> (Result_1);
+}

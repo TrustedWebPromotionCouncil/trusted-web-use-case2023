@@ -1,0 +1,25 @@
+{
+    "keyName": "myKey001",
+    "vcID": "vcID000001",
+    "issuerID": "did:example:5rA3HVWnNUwjhUW",
+    "issuerName": "VCAuthCom1",
+    "validFrom": "2023-06-01T00:00:00+09:00",
+    "validUntil": "2024-06-01T00:00:00+09:00",
+    "credentialSubject": {
+        "didDocument": {
+          "@context": "https://w3id.org/did/v1",
+          "id": "did:example:GUi5XHMycjqd1pe",
+          "verificationMethod": [
+            {
+              "controller": "did:example:GUi5XHMycjqd1pe",
+              "id": "did:example:GUi5XHMycjqd1pe#key1",
+              "publicKeyMultibase": "zGUi5XHMycjqd1peZWCnHDaSNFU29bwnRj6cytUjxTEjP",
+              "type": "Ed25519VerificationKey2018"
+            }
+          ]
+        },
+        "levelOfAuth": "level1",
+        "randomNumber": "11609582305364375727",
+        "statusOfAuth": "Valid"
+    }
+}

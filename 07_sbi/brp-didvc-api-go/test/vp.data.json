@@ -1,0 +1,44 @@
+{
+  "keyName": "myKey001",
+  "vpID": "vpID000001",
+  "issuerID": "did:example:5rA3HVWnNUwjhUW",
+  "verifiableCredential": {
+    "@context": [
+      "https://www.w3.org/2018/credentials/v2"
+    ],
+    "id": "http://example.com/vc/3732",
+    "type": [
+      "VerifiableCredential"
+    ],
+    "credentialSubject": {
+      "didDocument": {
+        "@context": "https://w3id.org/did/v1",
+        "id": "did:example:GUi5XHMycjqd1pe",
+        "verificationMethod": [
+          {
+            "controller": "did:example:GUi5XHMycjqd1pe",
+            "id": "did:example:GUi5XHMycjqd1pe#key1",
+            "publicKeyMultibase": "zGUi5XHMycjqd1peZWCnHDaSNFU29bwnRj6cytUjxTEjP",
+            "type": "Ed25519VerificationKey2018"
+          }
+        ]
+      },
+      "levelOfAuth": "level1",
+      "randomNumber": "11609582305364375727",
+      "statusOfAuth": "Valid"
+    },
+    "issuer": {
+      "id": "did:example:5rA3HVWnNUwjhUW",
+      "name": "VCAuthCom1"
+    },
+    "validFrom": "2023-06-06T13:18:01+09:00",
+    "validUntil": "2024-06-06T13:18:01+09:00",
+    "proof": {
+      "type": "Ed25519Signature2018",
+      "created": "2023-06-06T13:18:01+09:00",
+      "proofPurpose": "assertionMethod",
+      "verificationMethod": "did:example:5rA3HVWnNUwjhUW#key001",
+      "signatureValue": "z9gghcwu7h8fe3hVbKMAxPwphSrVpnk23H7RnoRVRV1LLsJpr2iC7uSix4rWVuHnEFuZT8Zdhg3rAzr9rJpBPEqj"
+    }
+  }
+}

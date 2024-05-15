@@ -1,0 +1,6 @@
+web/node_modules
+web/.cache
+web/build
+web/public/build
+web/.env
+web/*.log

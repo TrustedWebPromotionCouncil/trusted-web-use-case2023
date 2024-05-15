@@ -1,0 +1,94 @@
+version: "3"
+
+services:
+  api-matching:
+    build:
+      context: .
+      target: development
+    labels:
+      - traefik.http.middlewares.api-matching.stripprefix.prefixes=/api
+      - traefik.http.routers.api-matching-general.entrypoints=general
+      - traefik.http.routers.api-matching-general.rule=PathPrefix(`/api/matching`)
+      - traefik.http.routers.api-matching-general.middlewares=cors-general,api-matching
+      - traefik.http.services.api-matching.loadbalancer.server.port=3000
+      - traefik.http.services.api-matching.loadbalancer.healthcheck.path=/matching/public/health
+      - traefik.http.services.api-matching.loadbalancer.healthcheck.port=3000
+      - traefik.http.services.api-matching.loadbalancer.healthcheck.followredirects=false
+      - traefik.http.services.api-matching.loadbalancer.healthcheck.interval=1s
+      # - traefik.http.routers.api-matching-general-denyroutes.entrypoints=general
+      # - traefik.http.routers.api-matching-general-denyroutes.rule=PathPrefix(`/api/processing`)
+      # - traefik.http.routers.api-matching-general-denyroutes.middlewares=cors-general,api-matching
+      # - traefik.http.routers.api-matching-general-denyroutes.service=noop@internal
+    environment:
+      DATABASE_MAIN_HOST: db-matching
+      DATABASE_MAIN_USER: app
+      DATABASE_MAIN_PASSWORD: appsecret
+      DATABASE_MAIN_DB_NAME: matching
+      DATABASE_MAIN_PORT: 5432
+      DATABASE_MAIN_SSL_MODE: disable
+    command: air -c .air.matching.toml
+    # ports:
+    #   - 3000:3000
+    working_dir: /root/app
+    cap_add:
+      - SYS_PTRACE
+    security_opt:
+      - seccomp:unconfined
+    volumes:
+      - type: bind
+        source: .
+        target: /root/app
+      - api-matching_airtmp:/root/tmp
+      - ~/.aws:/root/.aws
+    networks:
+      - trustedweb-infra
+
+  api-processing:
+    build:
+      context: .
+      target: development
+    labels:
+      - traefik.http.middlewares.api-processing.stripprefix.prefixes=/api
+      - traefik.http.routers.api-processing-general.entrypoints=general
+      - traefik.http.routers.api-processing-general.rule=PathPrefix(`/api/processing`)
+      - traefik.http.routers.api-processing-general.middlewares=cors-general,api-processing
+      - traefik.http.services.api-processing.loadbalancer.server.port=3000
+      - traefik.http.services.api-processing.loadbalancer.healthcheck.path=/processing/public/health
+      - traefik.http.services.api-processing.loadbalancer.healthcheck.port=3000
+      - traefik.http.services.api-processing.loadbalancer.healthcheck.followredirects=false
+      - traefik.http.services.api-processing.loadbalancer.healthcheck.interval=1s
+      # - traefik.http.routers.api-processing-general-denyroutes.entrypoints=general
+      # - traefik.http.routers.api-processing-general-denyroutes.rule=PathPrefix(`/api/matching`)
+      # - traefik.http.routers.api-processing-general-denyroutes.middlewares=cors-general,api-processing
+      # - traefik.http.routers.api-processing-general-denyroutes.service=noop@internal
+    environment:
+      DATABASE_MAIN_HOST: db-processing
+      DATABASE_MAIN_USER: app
+      DATABASE_MAIN_PASSWORD: appsecret
+      DATABASE_MAIN_DB_NAME: processing
+      DATABASE_MAIN_PORT: 5432
+      DATABASE_MAIN_SSL_MODE: disable
+    command: air -c .air.processing.toml
+    # ports:
+    #   - 3000:3000
+    working_dir: /root/app
+    cap_add:
+      - SYS_PTRACE
+    security_opt:
+      - seccomp:unconfined
+    volumes:
+      - type: bind
+        source: .
+        target: /root/app
+      - api-processing_airtmp:/root/tmp
+      - ~/.aws:/root/.aws
+    networks:
+      - trustedweb-infra
+
+volumes:
+  api-matching_airtmp:
+  api-processing_airtmp:
+
+networks:
+  trustedweb-infra:
+    external: true

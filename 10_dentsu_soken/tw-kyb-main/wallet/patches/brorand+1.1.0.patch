@@ -1,0 +1,25 @@
+diff --git a/node_modules/brorand/index.js b/node_modules/brorand/index.js
+index 9a0fff4..43f3d9d 100644
+--- a/node_modules/brorand/index.js
++++ b/node_modules/brorand/index.js
+@@ -42,8 +42,18 @@ if (typeof self === 'object') {
+       self.msCrypto.getRandomValues(arr);
+       return arr;
+     };
+-
+-  // Safari's WebWorkers do not have `crypto`
++  } else if (
++    typeof navigator !== 'undefined' &&
++    navigator.product === 'ReactNative'
++  ) {
++    // react-native
++    Rand.prototype._rand = function (n) {
++      var crypto = require('expo-crypto');
++      var arr = new Uint8Array(n);
++      crypto.getRandomValues(arr);
++      return arr;
++    };
++    // Safari's WebWorkers do not have `crypto`
+   } else if (typeof window === 'object') {
+     // Old junk
+     Rand.prototype._rand = function() {

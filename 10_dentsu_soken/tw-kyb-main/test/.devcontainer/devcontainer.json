@@ -1,0 +1,42 @@
+{
+  "name": "test",
+  "dockerComposeFile": ["../docker-compose.yml"],
+  "service": "app",
+  "workspaceFolder": "/app",
+  "customizations": {
+  	// Configure properties specific to VS Code.
+  	"vscode": {
+  		// Set *default* container specific settings.json values on container create.
+  		// "settings": {
+      //   "editor.formatOnSave": true,
+      //   "editor.quickSuggestions": {
+      //     "strings": true
+      //   },
+      //   "editor.codeActionsOnSave": {
+      //     "source.fixAll.eslint": true
+      //   }
+      // },
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "bradlc.vscode-tailwindcss"
+      ]
+  	}
+  },
+  // "settings": {
+  //   "editor.formatOnSave": true,
+  //   "editor.quickSuggestions": {
+  //     "strings": true
+  //   },
+  //   "editor.codeActionsOnSave": {
+  //     "source.fixAll.eslint": true
+  //   }
+  // },
+  // "extensions": [
+  //   "dbaeumer.vscode-eslint",
+  //   "esbenp.prettier-vscode",
+  //   "bradlc.vscode-tailwindcss"
+  // ],
+  "forwardPorts": [9005, 5000, 4000, 9099, 5001, 8080, 9199],
+  "remoteUser": "node"
+}

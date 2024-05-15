@@ -1,0 +1,40 @@
+version: "3.9"
+services:
+  # nginx:
+  #   image: nginx:latest
+  #   container_name: nginx
+  #   ports:
+  #     - 443:443
+  #     - 80:80
+  app:
+    build: .
+    command: yarn dev
+    ports:
+      - 3006:3000
+      - 5555:5555
+      - 6006:6006
+    volumes:
+      - ./:/var/www/app
+    depends_on:
+      - postgres
+  postgres:
+    image: postgres:15
+    volumes:
+      - .database/psqlrc:/root/.psqlrc:ro
+      - postgres:/var/lib/postgresql/data
+      - history:/usr/local/hist
+    environment:
+      PSQL_HISTFILE: /usr/local/hist/.psql_history
+      POSTGRES_USER: brpbiz
+      POSTGRES_PASSWORD: password
+    ports:
+      - 5432:5432
+    healthcheck:
+      test: pg_isready -U brpbiz -h 127.0.0.1
+      interval: 5s
+volumes:
+  bundle:
+  history:
+  rails_cache:
+  postgres:
+  https-portal-data:

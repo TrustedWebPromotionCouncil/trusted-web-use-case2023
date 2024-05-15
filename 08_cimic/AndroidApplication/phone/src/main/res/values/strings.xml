@@ -1,0 +1,103 @@
+<resources>
+    <!-- TOPバー表示文字 -->
+    <string name="app_name">TrustedWebApp</string>
+    <string name="Screen_FirstRegister">初回登録画面</string>
+    <string name="Screen_Top">トップ画面</string>
+    <string name="Screen_QRReading">QRコード読み取り画面</string>
+    <string name="Screen_StudySite">試験－病院選択画面</string>
+    <string name="Screen_Menu">メニュー画面</string>
+    <string name="Screen_Consent">同意文書画面</string>
+    <string name="Screen_ConsentDocumentList">同意済み文書一覧画面</string>
+    <string name="Screen_ConsentHistory">同意履歴一覧画面</string>
+    <string name="Screen_SubjectData">復号化 被験者データ画面</string>
+    <string name="Screen_WearableManage">ウェアラブルデバイス管理画面</string>
+    <string name="Screen_AuditTrail">監査証跡画面</string>
+
+    <!-- ペルソナステータス -->
+    <string name="PersonaStatus_NOSTATUS">NO STATUS</string>
+    <string name="PersonaStatus_CREATED">CREATED</string>
+    <string name="PersonaStatus_FUNDING">FUNDING</string>
+    <string name="PersonaStatus_BROADCASTED">BROADCASTED</string>
+    <string name="PersonaStatus_CONFIRMING">CONFIRMING</string>
+    <string name="PersonaStatus_CONFIRMED">CONFIRMED</string>
+    <string name="PersonaStatus_EXPIRING">EXPIRING</string>
+    <string name="PersonaStatus_EXPIRED">EXPIRED</string>
+
+    <!-- テキスト文字列 -->
+    <string name="Text_PersonaStatus">ステータス</string>
+    <string name="Text_CreatingPersona">ペルソナ作成中です</string>
+    <string name="Text_WaningCreatePersona">
+        [注意]下記を確認してから、ペルソナを作成してください。\n・スマートフォンがインターネットに接続されている。
+    </string>
+    <string name="Text_WaitingCreatePersona">
+        ペルソナ作成は5～10分程度かかります。\n画面を閉じずに、しばらくお待ちください。
+    </string>
+    <string name="Text_ApprovalPending">施設の承認待ちです。\nしばらくお待ちください</string>
+    <string name="Text_WaitingApproval">施設の承認が完了しました。登録処理実行中です</string>
+    <string name="Text_ApprovalAllCompleted">登録処理が完了しました。</string>
+    <string name="Text_ApprovalRejected">登録処理が失敗しました。もう一度QRコードを読み込んでください。</string>
+    <string name="Text_LoadingPDF">PDFロード中です</string>
+    <string name="Text_ConsentLoadingPDF">更新処理中です</string>
+    <string name="Text_StudySite">試験-病院</string>
+    <string name="Text_DeviceType">デバイス</string>
+    <string name="Text_UpdateDeviceAlertTitle">ウェアラブル端末の更新</string>
+    <string name="Text_IsUpdateDevice">ウェアラブル端末情報を更新しますか？</string>
+    <string name="Text_ActivityType">アクティビティ</string>
+    <string name="Text_DataType">データ形式</string>
+    <string name="Text_Period">表示期間</string>
+    <string name="Text_StartDate">開始日</string>
+    <string name="Text_EndDate">終了日</string>
+    <string name="Text_Loading">しばらくお待ちください。</string>
+    <string name="Text_Withdraw">[同意撤回]</string>
+    <string name="Text_Withdrawing">撤回する</string>
+    <string name="Text_IsWithdraw">同意した文書を撤回しますか?</string>
+    <string name="Text_WithdrawDate">撤回日</string>
+    <string name="Text_WithdrawReason">撤回理由</string>
+    <string name="Text_WithdrawAlert">注意：あなたが同意を撤回したあと、病院スタッフが撤回内容を確認しあなたの治験を中止する手続きを行います。
+治験中止となった日以降にあなたがウェアラブルデバイスで取得したデータを病院スタッフおよび治験依頼者は見ることができなくなります。しかし、あなたはこのアプリの使用を続ける限り、引き続きデータを見ることができます。（治験中止日より前に取得したデータについてはこれまで通り決められた病院スタッフおよび治験依頼者も見ることができます。）\nまた、一度中止されますと再度この試験に参加することはできません。</string>
+<!--    <string name="Text_WithdrawAlert">注意：同意を撤回されますと、撤回した日以降にあなたがウェアラブルデバイスで取得したデータを病院スタッフおよび治験依頼者は見ることができなくなります。しかし、あなたはこのアプリの使用を続ける限り、引き続きデータを見ることができます。（同意撤回日より前に取得したデータについてはこれまで通り決められた病院スタッフおよび治験依頼者も見ることができます。）\nまた、一度撤回されますと再度この試験に参加することはできません。</string>-->
+    <string name="Text_Finish">すでに撤回/試験中止または終了した試験－病院施設です。\n過去の同意文書を確認したい場合、[同意済文書一覧画面]からファイルをダウンロードしてご確認お願いいたします。</string>
+    <string name="Text_Signing">同意済み文書または同意すべき文書がありません。\n文書が署名中である場合、同意文書として表示されません。\n病院施設側が文書の署名が完了しているか、ご確認お願いいたします。</string>
+    <string name="Text_NoHistory">同意済み履歴が存在しません。</string>
+    <string name="Text_NoAuditTrail">入力された期間内に監査証跡履歴が存在しません。</string>
+    <string name="Text_Yes">はい</string>
+    <string name="Text_No">いいえ</string>
+    <string name="Text_Cancel">キャンセル</string>
+    <string name="Text_Consent">同意・再同意</string>
+    <string name="Text_IsConsent">文書の内容に同意しますか?</string>
+
+    <!-- ボタンテキスト文字列 -->
+    <string name="ButtonText_Select">選択</string>
+    <string name="ButtonText_Search">検索</string>
+    <string name="ButtonText_BackToTop">トップ画面に戻る</string>
+    <string name="ButtonText_BackToMenu">メニュー画面に戻る</string>
+    <string name="ButtonText_Back">戻る</string>
+    <string name="ButtonText_Update">更新</string>
+    <string name="ButtonText_Create_Persona">ペルソナ作成</string>
+    <string name="ButtonText_ReCreate_Persona">ペルソナ作成の再開</string>
+    <string name="ButtonText_Consent">同意/再同意</string>
+    <string name="ButtonText_Withdraw">同意撤回</string>
+    <string name="ButtonText_DocumentPage">同意画面</string>
+    <string name="ButtonText_DocumentListPage">同意済文書一覧画面</string>
+    <string name="ButtonText_DocumentHistoryPage">同意履歴一覧画面</string>
+
+    <!-- トースト文字列 -->
+    <string name="ToastText_CreatedPersona">ペルソナの作成が完了しました。トップページに自動遷移します。</string>
+    <string name="ToastText_UpdateDevice">端末情報を更新しました。</string>
+    <string name="ToastText_CompleteDownload">ダウンロードが完了しました。</string>
+    <string name="ToastText_DownloadError">処理中にエラーが発生したため、ダウンロードが完了しませんでした。</string>
+    <string name="ToastText_ConsentProcessError">処理中にエラーが発生したため、同意・再同意処理が完了しませんでした。</string>
+    <string name="ToastText_WithdrawReason">撤回理由が入力されていません。撤回理由の入力お願いします。</string>
+    <string name="ToastText_WithdrawComplete">撤回が完了しました。</string>
+    <string name="ToastText_ConsentComplete">同意・再同意が完了しました。</string>
+    <string name="ToastText_NoSelectedDataType">デバイス、アクティビティ、データ形式を選択してください。</string>
+    <string name="ToastText_NoData">検索しましたが、１件も対象データがありませんでした。</string>
+
+    <string name="captured_photo">Captured photo</string>
+    <string name="data_item_changed">DataItem changed</string>
+    <string name="data_item_deleted">DataItem deleted</string>
+    <string name="data_item_unknown">Unknown DataItem type</string>
+    <string name="message_from_watch">Message from watch</string>
+    <string name="capability_changed">Capability changed</string>
+
+</resources>

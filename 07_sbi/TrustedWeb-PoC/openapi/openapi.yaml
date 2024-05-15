@@ -1,0 +1,645 @@
+openapi: 3.1.0
+info:
+  title: 認証機構API
+  version: v1.0.1
+
+servers:
+  - url: http://dev.detc.link:3001
+    description: |
+      開発環境
+  - url: http://uat.detc.link:3001
+    description: UAT
+paths:
+  /{organizationName}/challenge:
+    get:
+      operationId: getChallenge
+      summary: チャレンジの取得
+      security:
+        - {}
+      parameters:
+        - $ref: "#/components/parameters/OrganizationName"
+      responses:
+        "200":
+          description: 成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  authId:
+                    type: string
+                    description: 認証用ID
+                    example: 8b88ffb7-6805-4acb-9c43-82c84b0b21fa
+                  challenge:
+                    type: string
+                    description: 認証に使用するチャレンジの値。以降の認証処理で使用する。
+                    example: d79e5fba-d203-40f9-a71f-27df6cc05d48
+                  exp:
+                    type: integer
+                    description: challengeの有効期限(UNIX時間)
+                    default: 1695196332
+                required:
+                  - authId
+                  - challenge
+                  - exp
+  /{authorityName}/vc-requests:
+    post:
+      operationId: requestVc
+      summary: 事業所IDを申請する
+      description: |
+        事業所IDを申請するためのエンドポイント
+
+        リクエストボディのVCは認証とVC発行に必要なデータを送るために使用する。レスポンスでステータスとVC（事業所ID）を返す。
+      security:
+        - challenge: []
+      parameters:
+        - $ref: "#/components/parameters/AuthId"
+        - $ref: "#/components/parameters/AuthorityName"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                "@context":
+                  $ref: "#/components/schemas/Context"
+                id:
+                  description: 事業所が、事業所IDを申請する際に発番される連番番号（Reference No.）
+                  $ref: "#/components/schemas/Id"
+                type:
+                  $ref: "#/components/schemas/Type"
+                credentialSubject:
+                  type: object
+                  description: |
+                    証明対象
+
+                    https://www.w3.org/TR/2022/REC-vc-data-model-20220303/#credential-subject
+                  properties:
+                    didDocument:
+                      description: 事業所のDID Document
+                      $ref: "#/components/schemas/DIDDocument"
+                    businessUnitInfo:
+                      description: 事業所情報
+                      $ref: "#/components/schemas/BusinessUnitInfo"
+                    legalEntityInfo:
+                      description: 事業所が所属する事業者情報
+                      $ref: "#/components/schemas/LegalEntityInfo"
+                    authenticationLevel:
+                      type: string
+                      description: 認証レベル情報
+                      enum:
+                        - "1"
+                        - "2"
+                        - "3"
+                      example: "1"
+                    challenge:
+                      description: 認証情報。/challenge エンドポイントで受け取った challenge を入れる
+                      type: string
+                      example: "d79e5fba-d203-40f9-a71f-27df6cc05d48"
+                  required:
+                    - didDocument
+                    - businessUnitInfo
+                    - legalEntityInfo
+                    - authenticationLevel
+                    - challenge
+                issuer:
+                  type: object
+                  description: 事業所の自己署名
+                  properties:
+                    id:
+                      type: string
+                      maxLength: 1000
+                      description: 申請する事業所のDID
+                      example: "did:example:GUi5XHMycjqd1pe"
+                    name:
+                      type: string
+                      maxLength: 50
+                      description: 事業所名
+                      example: "factorya"
+                  required:
+                    - id
+                    - name
+                validFrom:
+                  description: 有効期限開始日
+                  $ref: "#/components/schemas/ValidityDateTime"
+                validUntil:
+                  description: 有効期限終了日
+                  # Redoclyの制限で、$refを使用するとexampleを上書きできないため直接schemaを記載
+                  # $ref: "#/components/schemas/ValidityDateTime"
+                  type: string
+                  format: date-time
+                  example: "2024-09-20T06:52:09.093Z"
+                proof:
+                  description: |
+                    Issuerの公開鍵情報や電子署名などの情報
+
+                    https://www.w3.org/TR/2022/REC-vc-data-model-20220303/#proofs-signatures
+                  allOf:
+                    - $ref: "#/components/schemas/Proof"
+                  example:
+                    type: "Ed25519Signature2018"
+                    created: "2023-09-20T06:52:14Z"
+                    proofPurpose: "assertionMethod"
+                    verificationMethod: did:example:GUi5XHMycjqd1pe:z6sMHtayMaCQXw1NEEhe99FYwwHaofTAb6zKAvF#vcauth-bu1-key
+                    signatureValue: "z58DAdFfa9SkqZMVPxAQpic7ndSayn1PzZs6ZjWp1CktyGesjuTSwRdoWhAfGFCF5bppETSTojQCrfFPP2oumHKtz"
+              required:
+                - "@context"
+                - id
+                - type
+                - credentialSubject
+                - issuer
+                - validFrom
+                - validUntil
+                - proof
+
+      responses:
+        "200":
+          description: 成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  requestId:
+                    type: string
+                    description: 事業所ID申請のリクエストID
+                    example: aeecca3d-9b47-4535-88f0-52fc1288ec7d
+                  status:
+                    type: string
+                    enum:
+                      - Approved
+                      - Rejected
+                  vc:
+                    description: |
+                      申請した事業所ID（VC）
+
+                      Approvedの場合のみ返却する。
+                    type: object
+                    properties:
+                      "@context":
+                        $ref: "#/components/schemas/Context"
+                      id:
+                        description: 事業所が、事業所IDを申請する際に発番される連番番号（Reference No.）
+                        $ref: "#/components/schemas/Id"
+                      type:
+                        $ref: "#/components/schemas/Type"
+                      credentialSubject:
+                        type: object
+                        description: |
+                          証明対象
+
+                          https://www.w3.org/TR/2022/REC-vc-data-model-20220303/#credential-subject
+                        properties:
+                          didDocument:
+                            description: 事業所のDID Document
+                            $ref: "#/components/schemas/DIDDocument"
+                          authenticatorInfo:
+                            description: 認証者情報
+                            $ref: "#/components/schemas/AuthenticatorInfo"
+                          businessUnitInfo:
+                            description: 事業所情報
+                            $ref: "#/components/schemas/BusinessUnitInfo"
+                          legalEntityInfo:
+                            description: 事業所が所属する事業者情報
+                            $ref: "#/components/schemas/LegalEntityInfo"
+                          authenticationLevel:
+                            type: string
+                            description: 認証レベル情報
+                            enum:
+                              - "1"
+                              - "2"
+                              - "3"
+                            example: "1"
+                          revocationEndPoints:
+                            description: 失効機関エンドポイント
+                            type: array
+                            items:
+                              type: string
+                            example:
+                              [
+                                "http://uat.detc.link:3001/revoke-1/vc-status/{uuid}",
+                                "http://uat.detc.link:3001/revoke-2/vc-status/{uuid}",
+                              ]
+                          linkedVP:
+                            description: |
+                              事業所IDを発行したデジタル認証機構のVP
+
+                              https://www.w3.org/TR/2022/REC-vc-data-model-20220303/#presentations
+
+                              サンプル：
+
+                              ```
+                              {"@context":["https://www.w3.org/2018/credentials/v2"],"id":"vpID7","holder":"did:detc:VCAuthCom1","type":["VerifiablePresentation"],"verifiableCredential":[{"@context":["https://www.w3.org/2018/credentials/v2"],"id":"VCAuthCom1-vcID-Test20230824-01","type":["VerifiableCredential"],"credentialSubject":{"blockHash":"974DD42AD5055F0BC1057DEBFDD1FD29622B780898602C797E83B8EE93C68290","didDocument":{"@context":"https://w3id.org/did/v1","id":"did:detc:VCAuthCom1","verificationMethod":[{"controller":"did:detc:VCAuthCom1","id":"did:detc:VCAuthCom1#vcauth-com1-key","publicKeyMultibase":"z8YdBNxmCRxKUr3WrUNxV1Ut9jdmVtcqPCdxfibX4kbrP","type":"Ed25519VerificationKey2018"}]},"uuid":"893332c4-186c-4b46-ac88-eea301000413"},"issuer":{"id":"did:detc:VCAuthOrg","name":"VCAuthOrg"},"validFrom":"2023-08-24T10:48:43+09:00","validUntil":"2024-08-23T10:48:43+09:00","proof":{"type":"Ed25519Signature2018","created":"2023-08-24T01:48:43Z","proofPurpose":"assertionMethod","verificationMethod":"did:detc:VCAuthOrg#vcauth-org-key","signatureValue":"z5jnkndEV8n8SQohPaoVUpnarCoz6uPuaMfwW47YX2vuMnDPnDcdhr2L4fJouYt6XP8esEFiC37NGF6b3dPi9BNJC"}}],"proof":[{"type":"Ed25519Signature2018","created":"2023-10-17T13:48:55+09:00","proofPurpose":"authentication","verificationMethod":"did:detc:VCAuthCom1#vcauth-consortium1-key","signatureValue":"z9F7va4QuWNpAYsNb3AwhS9rHnZ5nqzsJ9vyivQbSsntYjkzdxYuuifmMcgeV3j6fLjsuokXYBGvJsNQfd1dL8DY"}]}
+                              ```
+                            type: object
+                            example:
+                              "@context":
+                                - "https://www.w3.org/2018/credentials/v2"
+                              "id": "vpID28"
+                              "holder": "did:detc:VCAuthCom1"
+                              "type":
+                                - "VerifiablePresentation"
+                              "verifiableCredential":
+                                - "@context":
+                                    - "https://www.w3.org/2018/credentials/v2"
+                                  "id": "VCAuthCom1-vcID-Test20230824-01"
+                                  "type":
+                                    - "VerifiableCredential"
+                                  "credentialSubject":
+                                    "blockHash": "974DD42AD5055F0BC1057DEBFDD1FD29622B780898602C797E83B8EE93C68290"
+                                    "didDocument":
+                                      "@context": "https://w3id.org/did/v1"
+                                      "id": "did:detc:VCAuthCom1"
+                                      "verificationMethod":
+                                        - "controller": "did:detc:VCAuthCom1"
+                                          "id": "did:detc:VCAuthCom1#vcauth-com1-key"
+                                          "publicKeyMultibase": "z8YdBNxmCRxKUr3WrUNxV1Ut9jdmVtcqPCdxfibX4kbrP"
+                                          "type": "Ed25519VerificationKey2018"
+                                    "uuid": "893332c4-186c-4b46-ac88-eea301000413"
+                                  "issuer":
+                                    "id": "did:detc:VCAuthOrg"
+                                    "name": "VCAuthOrg"
+                                  "validFrom": "2023-08-24T10:48:43+09:00"
+                                  "validUntil": "2024-08-23T10:48:43+09:00"
+                                  "proof":
+                                    "type": "Ed25519Signature2018"
+                                    "created": "2023-08-24T01:48:43Z"
+                                    "proofPurpose": "assertionMethod"
+                                    "verificationMethod": "did:detc:VCAuthOrg#vcauth-org-key"
+                                    "signatureValue": "z5jnkndEV8n8SQohPaoVUpnarCoz6uPuaMfwW47YX2vuMnDPnDcdhr2L4fJouYt6XP8esEFiC37NGF6b3dPi9BNJC"
+                              "proof":
+                                - "type": "Ed25519Signature2018"
+                                  "created": "2023-10-10T18:03:48+09:00"
+                                  "proofPurpose": "authentication"
+                                  "verificationMethod": "did:detc:VCAuthCom1#vcauth-consortium1-key"
+                                  "signatureValue": "z5hbnBkUuYsUwzViNmPaPn5nnSxmDGMehvkamkd8u8duTmq7g8BAqyfhAeyx2ETFL9pV3NToGGc8F2gKpe8xgfwVN"
+                          uuid:
+                            type: string
+                            description: 証明書を識別するハッシュ値のUUID（Universally Unique IDentifier）
+                            example: 550e8400-e29b-41d4-a716-446655440000
+                        required:
+                          - didDocument
+                          - authenticatorInfo
+                          - businessUnitInfo
+                          - legalEntityInfo
+                          - authenticationLevel
+                          - revocationEndPoints
+                          - linkedVP
+                          - uuid
+                      issuer:
+                        type: object
+                        description: VCを発行したデジタル認証機構の情報
+                        properties:
+                          id:
+                            type: string
+                            maxLength: 1000
+                            description: デジタル認証機構のDID
+                            example: "did:detc:JPDigitalCertificateOrganization1:T1U9QXV0aERlcHQsIE89VkNBdXRoQ29tMSwgTD1Ub2t5bywgQz1KUA%3D%3D"
+                          name:
+                            type: string
+                            maxLength: 50
+                            description: デジタル認証機構名
+                            example: "JP Digital Certificate Organization 1"
+                        required:
+                          - id
+                          - name
+                      validFrom:
+                        description: デジタル認証機構が事業所IDを発行した日（有効期限開始日）
+                        $ref: "#/components/schemas/ValidityDateTime"
+                        example: "2023-09-20T06:52:09.093Z"
+                      validUntil:
+                        description: 発行された事業所IDの有効期限終了日。
+                        # Redoclyの制限で、$refを使用するとexampleを上書きできないため直接schemaを記載
+                        # $ref: "#/components/schemas/ValidityDateTime"
+                        type: string
+                        format: date-time
+                        example: "2024-09-20T06:52:09.093Z"
+
+                      proof:
+                        description: |
+                          Issuerの公開鍵情報や電子署名などの情報
+
+                          https://www.w3.org/TR/2022/REC-vc-data-model-20220303/#proofs-signatures
+                        $ref: "#/components/schemas/Proof"
+                    required:
+                      - "@context"
+                      - id
+                      - type
+                      - credentialSubject
+                      - validFrom
+                      - validUntil
+                      - issuer
+                      - proof
+                required:
+                  - requestId
+                  - status
+
+  /{revokeName}/vc-status/{uuid}:
+    get:
+      operationId: getVcStatus
+      summary: VCの失効状態を取得する。
+      description: |
+        失効機関用WebApi
+        対象VCのuuid対するVC状態（Valid, Revoked, Unknown）を失効機関CordaNodeより取得し、失効機関の認証情報と共に返却する
+      parameters:
+        - name: revokeName
+          in: path
+          required: true
+          schema:
+            type: string
+            description: |
+              失効機関名。（認証機関は指定できない）
+
+              組織名（X509の一部O）がRevoke1であれば、 revokeNameはrevoke-1 とする。
+            enum:
+              - revoke-1
+              # - revoke-2
+        - name: uuid
+          in: path
+          required: true
+          schema:
+            type: string
+          description: |
+            認証用ID
+          example: 8b88ffb7-6805-4acb-9c43-82c84b0b21fa
+      responses:
+        "200":
+          description: 成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  uuid:
+                    type: string
+                    description: 指定uuid(echo back)
+                  status:
+                    type: string
+                    description: 指定uuidに対するVC認証状況
+                required:
+                  - "@context"
+                  - uuid
+                  - status
+        default:
+          $ref: "#/components/responses/ErrorResponse"
+
+security:
+  - {}
+  - challenge: []
+components:
+  securitySchemes:
+    challenge:
+      type: http
+      scheme: challenge
+      description: |
+        チャレンジレスポンス認証による認証を行う。
+
+        headerにauthIDを設定し、challengeをcredentialSubjectに含めた自己署名VCをpostすることで認証を行う。
+  schemas:
+    Context:
+      type: array
+      description: |
+        VCのコンテキスト
+
+        https://www.w3.org/TR/2022/REC-vc-data-model-20220303/#contexts
+      items:
+        type: string
+        default: "https://www.w3.org/2018/credentials/examples/v1"
+    Id:
+      type: string
+      description: |
+        VCの識別子。
+
+        https://www.w3.org/TR/2022/REC-vc-data-model-20220303/#identifiers
+      example: vc00001
+    Type:
+      type: array
+      description: |
+        VCの種類
+
+        https://www.w3.org/TR/2022/REC-vc-data-model-20220303/#types
+      items:
+        type: string
+        default: VerifiableCredential
+    DIDDocument:
+      type: object
+      description: |
+        DID Document
+
+        https://www.w3.org/TR/2022/REC-did-core-20220303/#did-documents
+      properties:
+        "@context":
+          type: string
+          default: "https://w3id.org/did/v1"
+        id:
+          description: 事業所のDID
+          type: string
+          example: did:example:GUi5XHMycjqd1pe
+        verificationMethod:
+          type: array
+          items:
+            $ref: "#/components/schemas/VerificationMethod"
+          minItems: 1
+      required:
+        - "@context"
+        - id
+        - verificationMethod
+    VerificationMethod:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "did:example:GUi5XHMycjqd1pe#vcauth-bu1-key"
+        type:
+          type: string
+          default: "Ed25519VerificationKey2018"
+        controller:
+          type: string
+          example: "did:example:GUi5XHMycjqd1pe"
+          description: did documentの内容編集の権利を持った者
+        publicKeyMultibase:
+          type: string
+          example: "z6sMHtayMaCQXw1NEEhe99FYwwHaofTAb6zKAvF"
+          description: MultiBase化されたPublicKeyの文字列
+      required:
+        - publicKeyMultibase
+    ValidityDateTime:
+      type: string
+      format: date-time
+      example: "2023-09-20T06:52:09.093Z"
+    Proof:
+      type: object
+      properties:
+        type:
+          description: プルーフのタイプ。
+          type: string
+          default: "Ed25519Signature2018"
+        created:
+          description: プルーフの作成日時。
+          type: string
+          format: date-time
+          example: "2023-09-20T06:52:14Z"
+        proofPurpose:
+          description: プルーフの目的。
+          type: string
+          example: "assertionMethod"
+        verificationMethod:
+          description: プルーフに使用される検証方法。
+          type: string
+          example: "did:detc:JPDigitalCertificateOrganization1:T1U9QXV0aERlcHQsIE89VkNBdXRoQ29tMSwgTD1Ub2t5bywgQz1KUA%3D%3D#vcauth-bu1-key"
+        signatureValue:
+          description: プルーフの署名値。
+          type: string
+          example: "z58DAdFfa9SkqZMVPxAQpic7ndSayn1PzZs6ZjWp1CktyGesjuTSwRdoWhAfGFCF5bppETSTojQCrfFPP2oumHKtz"
+      required:
+        - signatureValue
+    BusinessUnitInfo:
+      type: object
+      description: 事業所情報
+      properties:
+        businessUnitName:
+          type: string
+          maxLength: 50
+          description: 事業所名
+          example: factoryA
+        country:
+          type: string
+          maxLength: 30
+          description: 事業所の国名
+          example: Japan
+        address:
+          type: string
+          maxLength: 200
+          description: 事業所の住所
+          example: "1-6-1 Roppongi, Minato-ku, Tokyo"
+        contactInfo:
+          type: object
+          description: 連絡先情報
+          properties:
+            name:
+              type: string
+              maxLength: 30
+              description: 担当者名
+              example: "Ohtani Shohei"
+            department:
+              type: string
+              maxLength: 30
+              description: 部署名
+              example: "部署"
+            jobTitle:
+              type: string
+              description: 役職名
+              example: 部長
+            contactNumber:
+              type: string
+              maxLength: 20
+              description: 連絡先電話番号
+              example: "0312345678"
+      required:
+        - businessUnitName
+        - country
+    LegalEntityInfo:
+      type: object
+      description: 事業所が所属する事業者情報
+      properties:
+        legalEntityIdentifier:
+          type: string
+          maxLength: 30
+          description: 事業者の本人確認をするために使用する外部参照先の識別子
+          example: "6010401045208"
+        legalEntityName:
+          type: string
+          maxLength: 50
+          description: 事業者名
+          example: "SBI Holdings"
+        location:
+          type: string
+          maxLength: 200
+          description: 事業者の所在地
+          example: "Tokyo"
+      required:
+        - legalEntityIdentifier
+        - legalEntityName
+        - location
+    AuthenticatorInfo:
+      type: object
+      description: 認証者情報
+      properties:
+        digitalCertificateOrganizationName:
+          type: string
+          description: 発行者となるデジタル認証機構の名称
+          example: "JP Digital Certificate Organization 1"
+        digitalCertificateOrganizationCredentialIssuer:
+          type: string
+          description: デジタル認証機構を認定した公的機関名
+          example: "JP Accreditation Organization"
+      required:
+        - digitalCertificateOrganizationId
+        - digitalCertificateOrganizationName
+        - digitalCertificateOrganizationCredentialIssuer
+  parameters:
+    AuthId:
+      name: TTW-Auth-Id
+      in: header
+      required: true
+      schema:
+        type: string
+        description: |
+          認証用ID。
+          /challenge エンドポイントで受け取った authId を入れる
+        example: 8b88ffb7-6805-4acb-9c43-82c84b0b21fa
+
+    OrganizationName:
+      name: organizationName
+      in: path
+      required: true
+      schema:
+        type: string
+        description: |
+          組織名。
+
+          組織名（X509の一部O）がAuthority1であれば、 authorityNameはauthority-1 とする。
+        enum:
+          - authority-1
+          - revoke-1
+    AuthorityName:
+      name: authorityName
+      in: path
+      required: true
+      schema:
+        type: string
+        description: |
+          認証機構名。（失効機関は指定できない）
+
+          組織名（X509の一部O）がAuthority1であれば、 authorityNameはauthority-1 とする。
+        enum:
+          - authority-1
+          # - authority-2
+    # 失効機関のパスを作成した際に使用すること
+    RevokeName:
+      name: revokeName
+      in: path
+      required: true
+      schema:
+        type: string
+        description: |
+          失効機関名。（認証機構は指定できない）
+
+          組織名（X509の一部O）がRevoke1であれば、 revokeNameはrevoke-1 とする。
+        enum:
+          - revoke-1
+          # - revoke-2
+  responses:
+    ErrorResponse:
+      description: エラー
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              code:
+                description: エラーコード
+                type: string
+              message:
+                description: エラーメッセージ
+                type: string

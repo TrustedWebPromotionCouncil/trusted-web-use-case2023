@@ -1,0 +1,77 @@
+{
+  "folders": [
+    {
+      "path": "."
+    }
+  ],
+  "settings": {
+    "editor.formatOnSave": true,
+    "editor.indentSize": 2,
+    "editor.quickSuggestions": {
+      "other": "on",
+      "comments": "off",
+      "strings": true
+    },
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.tabSize": 2,
+    "editor.renderWhitespace": "all",
+    "prettier.singleQuote": true,
+    "typescript.tsdk": "node_modules/typescript/lib"
+  },
+  "tasks": {
+    "version": "2.0.0",
+    "tasks": [
+      {
+        "label": "🐳docker-compose down",
+        "type": "shell",
+        "command": "docker-compose down",
+        "problemMatcher": []
+      },
+      {
+        "label": "🐳docker-compose up",
+        "type": "shell",
+        "command": "docker-compose down && docker-compose up",
+        "problemMatcher": []
+      },
+      {
+        "label": "🤖Start local server",
+        "type": "shell",
+        "command": "source ~/.zshrc && nvm use && yarn serve",
+        "problemMatcher": []
+      },
+      {
+        "label": "📕Start storybook",
+        "type": "shell",
+        "command": "source ~/.zshrc && nvm use && yarn sb",
+        "problemMatcher": []
+      },
+      {
+        "label": "⚙Run unit test",
+        "type": "shell",
+        "command": "source ~/.zshrc && nvm use && yarn test",
+        "problemMatcher": []
+      },
+      {
+        "label": "⚙Run build test(prod mode)",
+        "type": "shell",
+        "command": "source ~/.zshrc && nvm use && yarn format && yarn build-prod && rm -r dist",
+        "problemMatcher": []
+      },
+      {
+        "label": "⚙Run prettier",
+        "type": "shell",
+        "command": "source ~/.zshrc && nvm use && yarn format",
+        "problemMatcher": []
+      }
+    ]
+  },
+  "extensions": {
+    "recommendations": [
+      "streetsidesoftware.code-spell-checker",
+      "vue.volar",
+      "esbenp.prettier-vscode",
+      "vue.vscode-typescript-vue-plugin",
+      "vuetifyjs.vuetify-vscode"
+    ]
+  }
+}

@@ -1,0 +1,43 @@
+<resources>
+    <string name="app_name">TrustedWebWatch</string>
+    <!--
+    This string is used for square devices and overridden by hello_world in
+    values-round/strings.xml for round devices.
+
+    -->
+
+    <!-- ペルソナステータス -->
+    <string name="PersonaStatus_NOSTATUS">NO STATUS</string>
+    <string name="PersonaStatus_CREATED">CREATED</string>
+    <string name="PersonaStatus_FUNDING">FUNDING</string>
+    <string name="PersonaStatus_BROADCASTED">BROADCASTED</string>
+    <string name="PersonaStatus_CONFIRMING">CONFIRMING</string>
+    <string name="PersonaStatus_CONFIRMED">CONFIRMED</string>
+    <string name="PersonaStatus_EXPIRING">EXPIRING</string>
+    <string name="PersonaStatus_EXPIRED">EXPIRED</string>
+
+    <!-- テキスト文字列 -->
+    <string name="Text_PersonaStatus">ステータス</string>
+    <string name="Text_CreatingPersona">ペルソナ作成中です</string>
+    <string name="Text_CreatedPersona">ペルソナの作成が完了しました。\nアプリを閉じてください。</string>
+    <string name="ButtonText_Create_Persona">ペルソナ作成</string>
+    <string name="ButtonText_ReCreate_Persona">ペルソナ再作成</string>
+    <string name="Text_WaningCreatePersona">
+        [注意]下記を確認してから、ペルソナを作成してください。\n・デバイスがスマートフォンとBluetooth接続されている。\n・スマートフォンがインターネットに接続されている。
+    </string>
+    <string name="Text_WaitingCreatePersona">
+        ペルソナ作成は5～10分程度かかります。\n画面を閉じずに、しばらくお待ちください。
+    </string>
+    <!-- トースト文字列 -->
+    <string name="ToastText_CreatedPersona">ペルソナの作成が完了しました。</string>
+
+
+    <!-- DataClient -->
+    <string name="captured_photo">Captured photo</string>
+    <string name="data_item_changed">DataItem changed</string>
+    <string name="data_item_deleted">DataItem deleted</string>
+    <string name="data_item_unknown">Unknown DataItem type</string>
+    <string name="message_from_watch">Message from watch</string>
+    <string name="capability_changed">Capability changed</string>
+
+</resources>

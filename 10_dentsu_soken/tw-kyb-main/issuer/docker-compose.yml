@@ -1,0 +1,10 @@
+version: '3'
+services:
+  java-oauth-server:
+    build:
+      context: .
+    volumes:
+      - .:/workspace:cached
+    working_dir: /workspace
+    network_mode: host
+    tty: true

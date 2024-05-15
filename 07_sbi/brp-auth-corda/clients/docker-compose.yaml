@@ -1,0 +1,107 @@
+version: '3'
+
+services:
+  corda-webapi-01:
+    image: amazoncorretto:8
+    restart: always
+    container_name: brp-corda-webapi-01
+    environment:
+      TZ: "Asia/Tokyo"
+      CONFIG_RPC_ROLE: AUTH_ORG
+      CONFIG_RPC_PORT: 10007
+    mem_limit: 1000m
+    ports:
+      - "8085:8085"
+    command: 'java -jar /corda/webapi.jar'
+    volumes:
+      - ./build/libs/clients-1.0.jar:/corda/webapi.jar
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8085/brp/corda/version" ]
+      start_period: 30s
+      interval: 10s
+      timeout: 10s
+      retries: 30
+
+  corda-webapi-02:
+    image: amazoncorretto:8
+    restart: always
+    container_name: brp-corda-webapi-02
+    environment:
+      TZ: "Asia/Tokyo"
+      CONFIG_RPC_ROLE: AUTH_ORG_CONSORTIUM
+      CONFIG_RPC_PORT: 10012
+    mem_limit: 1000m
+    ports:
+      - "8086:8085"
+    command: 'java -jar /corda/webapi.jar'
+    volumes:
+      - ./build/libs/clients-1.0.jar:/corda/webapi.jar
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8085/brp/corda/version" ]
+      start_period: 30s
+      interval: 10s
+      timeout: 10s
+      retries: 30
+
+  corda-webapi-03:
+    image: amazoncorretto:8
+    restart: always
+    container_name: brp-corda-webapi-03
+    environment:
+      TZ: "Asia/Tokyo"
+      CONFIG_RPC_ROLE: AUTH_ORG_CONSORTIUM
+      CONFIG_RPC_PORT: 10017
+    mem_limit: 1000m
+    ports:
+      - "8087:8085"
+    command: 'java -jar /corda/webapi.jar'
+    volumes:
+      - ./build/libs/clients-1.0.jar:/corda/webapi.jar
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8085/brp/corda/version" ]
+      start_period: 30s
+      interval: 10s
+      timeout: 10s
+      retries: 30
+
+  corda-webapi-04:
+    image: amazoncorretto:8
+    restart: always
+    container_name: brp-corda-webapi-04
+    environment:
+      TZ: "Asia/Tokyo"
+      CONFIG_RPC_ROLE: AUTH_COMPANY
+      CONFIG_RPC_PORT: 10022
+    mem_limit: 1000m
+    ports:
+      - "8088:8085"
+    command: 'java -jar /corda/webapi.jar'
+    volumes:
+      - ./build/libs/clients-1.0.jar:/corda/webapi.jar
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8085/brp/corda/version" ]
+      start_period: 30s
+      interval: 10s
+      timeout: 10s
+      retries: 30
+
+  corda-webapi-05:
+    image: amazoncorretto:8
+    restart: always
+    container_name: brp-corda-webapi-05
+    environment:
+      TZ: "Asia/Tokyo"
+      CONFIG_RPC_ROLE: AUTH_COMPANY
+      CONFIG_RPC_PORT: 10027
+    mem_limit: 1000m
+    ports:
+      - "8089:8085"
+    command: 'java -jar /corda/webapi.jar'
+    volumes:
+      - ./build/libs/clients-1.0.jar:/corda/webapi.jar
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8085/brp/corda/version" ]
+      start_period: 30s
+      interval: 10s
+      timeout: 10s
+      retries: 30

@@ -1,0 +1,12 @@
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+name: trusted-web/develop-matching
+
+jobs:
+  call_workflow:
+    uses: Institution-for-a-Global-Society/trusted-web-infra/.github/workflows/develop-api-matching.yaml@main
+    secrets: inherit

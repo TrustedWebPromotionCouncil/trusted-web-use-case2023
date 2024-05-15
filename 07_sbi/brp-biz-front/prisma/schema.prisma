@@ -1,0 +1,322 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Rank {
+  S
+  A
+  B
+  C
+}
+
+enum ShippingStatusType {
+  Before
+  Prepare
+  Shipped
+}
+
+enum ContractStatusType {
+  InProgress
+  Finalized
+}
+
+enum ContractDocumentStatusType {
+  PreReview
+  Reviewed
+}
+
+enum ContractVpStatusType {
+  PreRequest
+  Requested
+  Created
+  Verified
+}
+
+model LegalEntity {
+  id               Int             @id @default(autoincrement())
+  name             String
+  domainName       String?
+  color            String
+  businessUnits    BusinessUnit[]
+  identifier       String?
+
+  @@map("legal_entities")
+}
+
+model BusinessUnit {
+  id                   Int                  @id @default(autoincrement())
+  name                 String
+  domainName           String
+  address              String?
+  prefix               String
+  numberOfIssuedVc     Int
+  numberOfIssuedVp     Int
+  did                  String?
+  publicKey            String?
+  privateKey           String?
+  vcsForBusinessUnit   VcForBusinessUnit[]
+  users                User[]
+  legalEntityId        Int
+  legalEntity          LegalEntity          @relation(fields: [legalEntityId], references: [id])
+  products             Product[]
+  orders               Order[]
+  contractsPartyA      Contract[]           @relation("BusinessUnitPartyA")
+  contractsPartyB      Contract[]           @relation("BusinessUnitPartyB")
+  contractVps          ContractVp[]
+  challengeVcs         ChallengeVc[]
+  trustedListPartners  TrustedListPartner[]
+
+  @@map("business_units")
+}
+
+model User {
+  id               Int             @id @default(autoincrement())
+  email            String          @unique
+  name             String
+  password         String
+  businessUnitId   Int
+  businessUnit     BusinessUnit    @relation(fields: [businessUnitId], references: [id])
+  logs             Log[]
+
+  @@map("users")
+}
+
+model Product {
+  id               Int             @id @default(autoincrement())
+  name             String
+  number           String
+  lots             Lot[]
+  vcs              VcForProduct[]
+  businessUnitId   Int
+  businessUnit     BusinessUnit    @relation(fields: [businessUnitId], references: [id])
+
+  @@map("products")
+}
+
+model Lot {
+  id               Int             @id @default(autoincrement())
+  name             String?
+  number           Int
+  productId        Int
+  product          Product         @relation(fields: [productId], references: [id])
+  vcForProductId   Int?
+  vcForProduct     VcForProduct?   @relation(fields: [vcForProductId], references: [id])
+  order            Order[]
+
+  @@map("lots")
+}
+
+model Order {
+  id                Int                 @id @default(autoincrement())
+  shippingForId     Int
+  shippingFor       BusinessUnit        @relation(fields: [shippingForId], references: [id])
+  shippingDate      DateTime?
+  quality           Rank?
+  status            ShippingStatusType
+  lotId             Int
+  lot               Lot                 @relation(fields: [lotId], references: [id])
+  vp                Vp?
+
+  @@map("orders")
+}
+
+model VcForBusinessUnit {
+  id                   Int             @id @default(autoincrement())
+  authenticationLevel  Int
+  vcContent            String
+  signature            String
+  uuid                 String?
+  issuerName           String?
+  issuerUuid           String?
+  issuerSignature      String?
+  issuerVpSignature    String?
+  issuerVcSignature    String?
+  signedVcContent      String?
+  signedVpContent      String?
+  issuerSignedContent  String?
+  issuerPublicKey      String?
+  validFrom            DateTime
+  validUntil           DateTime
+  original             Json
+  businessUnitId       Int
+  businessUnit         BusinessUnit    @relation(fields: [businessUnitId], references: [id])
+  isPrivateVc          Boolean
+
+  @@map("vcs_for_business_unit")
+}
+
+model VcForProduct {
+  id               Int             @id @default(autoincrement())
+  issuerName       String?
+  validFrom        DateTime?
+  validUntil       DateTime?
+  original         Json
+  productId        Int
+  product          Product         @relation(fields: [productId], references: [id])
+  lots             Lot[]
+
+  @@map("vcs_for_product")
+}
+
+model Vp {
+  id                  Int                   @id @default(autoincrement())
+  original            Json
+  signature           String
+  orderId             Int                   @unique
+  order               Order                 @relation(fields: [orderId], references: [id])
+  verificationResult  VerificationResult?
+
+  @@map("vps")
+}
+
+model Log {
+  id               Int             @id @default(autoincrement())
+  userId           Int
+  user             User            @relation(fields: [userId], references: [id])
+  date             DateTime
+  requestUrl       String
+  requestMethod    String
+  requestBody      Json
+  status           String?
+  responseBody     Json?
+
+  @@map("logs")
+}
+
+model VerificationResult {
+  id                                   Int             @id @default(autoincrement())
+  date                                 DateTime
+  hasValidBusinessUnitSignature        Boolean
+  hasValidVcForBusinessUnit            Boolean
+  hasValidIssuerSignature              Boolean
+  hasValidIssuerVc                     Boolean
+  hasValidBusinessUnitCredentialStatus Boolean
+  hasValidIssuerCredentialStatus       Boolean
+
+  vpId                                 Int             @unique
+  vp                                   Vp              @relation(fields: [vpId], references: [id])
+
+  @@map("verification_results")
+}
+
+model Contract {
+  id                      Int @id @default(autoincrement())
+  contractDate            DateTime?
+  contractDocumentStatus  ContractDocumentStatusType
+  partyAId                Int
+  partyA                  BusinessUnit @relation("BusinessUnitPartyA", fields: [partyAId], references: [id])
+  partyAChallenge         String?
+  partyAVpStatus          ContractVpStatusType
+  partyBId                Int
+  partyB                  BusinessUnit @relation("BusinessUnitPartyB", fields: [partyBId], references: [id])
+  partyBChallenge         String?
+  partyBVpStatus          ContractVpStatusType
+  contractVps             ContractVp[]
+  challengeVcs            ChallengeVc[]
+
+  @@map("contracts")
+}
+
+model ContractVp {
+  id                            Int          @id @default(autoincrement())
+  issuerName                    String
+  issuerId                      String
+  content                       String
+  signature                     String
+  validFrom                     DateTime
+  validUntil                    DateTime
+  challengeVcValidFrom          String?
+  challengeVcValidUntil         String?
+  challengeVcIssuerId           String?
+  challengeVcIssuerName         String?
+  challengeVcHolderId           String?
+  challengeVcHolderName         String?
+  challengeVcContent            String?
+  challengeVcSignature          String?
+  challenge                     String
+  vcValidFrom                   String?
+  vcValidUntil                  String?
+  vcUuid                        String?
+  vcAuthId                      String?
+  vcAuthName                    String?
+  vcAuthCertifierName           String?
+  vcBusinessUnitId              String?
+  vcBusinessUnitName            String?
+  vcBusinessUnitCountry         String?
+  vcBusinessUnitAddress         String?
+  vcLegalEntityIdentifier       String?
+  vcLegalEntityName             String?
+  vcLegalEntityLocation         String?
+  vcContent                     String?
+  vcSignature                   String?
+  vcIssuerSignature             String?
+  vcIssuerVpSignature           String?
+  vcIssuerVcSignature           String?
+  vcSignedVcContent             String?
+  vcSignedVpContent             String?
+  vcIssuerSignedContent         String?
+  vcIssuerPublicKey             String?
+  vcIssuerUuid                  String?
+  original                      Json
+  businessUnitId                Int
+  businessUnit                  BusinessUnit @relation(fields: [businessUnitId], references: [id])
+  contractId                    Int
+  contract                      Contract     @relation(fields: [contractId], references: [id])
+  contractVpVerificationResult  ContractVpVerificationResult?
+
+  @@map("contract_vps")
+}
+
+model ChallengeVc {
+  id                  Int          @id @default(autoincrement())
+  challenge           String
+  issuerName          String
+  issuerId            String
+  content             String
+  signature           String
+  validFrom           DateTime
+  validUntil          DateTime
+  original            Json
+  businessUnitId      Int
+  businessUnit        BusinessUnit @relation(fields: [businessUnitId], references: [id])
+  contractId          Int
+  contract            Contract     @relation(fields: [contractId], references: [id])
+
+  @@map("challenge_vcs")
+}
+
+model ContractVpVerificationResult {
+  id                                    Int             @id @default(autoincrement())
+  date                                  DateTime
+  hasValidChallengeVc                   Boolean
+  hasOpponentChallenge                  Boolean
+  hasValidVp                            Boolean
+  hasValidVcForBusinessUnit             Boolean
+  hasValidIssuerVp                      Boolean
+  hasValidIssuerVc                      Boolean
+  hasValidBusinessUnitCredentialStatus  Boolean
+  hasValidIssuerCredentialStatus        Boolean
+
+  contractVpId                          Int             @unique
+  contractVp                            ContractVp      @relation(fields: [contractVpId], references: [id])
+
+  @@map("contract_vp_verification_results")
+}
+
+model TrustedListPartner {
+  id                                     Int             @id @default(autoincrement())
+  obtainedDate                           DateTime
+  country                                String
+  publicMultibaseIdentifier              String
+  publicMultibaseKey                     String
+  businessUnitId                         Int
+  businessUnit                           BusinessUnit    @relation(fields: [businessUnitId], references: [id])
+
+
+  @@map("trusted_list_partners")
+}

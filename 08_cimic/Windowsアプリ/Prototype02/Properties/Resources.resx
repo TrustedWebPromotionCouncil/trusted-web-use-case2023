@@ -1,0 +1,468 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="K0000" xml:space="preserve">
+    <value>【KeyChainのエラーID＆メッセージ】</value>
+  </data>
+  <data name="K2001" xml:space="preserve">
+    <value>2001:method deprecated</value>
+  </data>
+  <data name="K2002" xml:space="preserve">
+    <value>2002:unknown error</value>
+  </data>
+  <data name="K2003" xml:space="preserve">
+    <value>2003:file system error</value>
+  </data>
+  <data name="K2004" xml:space="preserve">
+    <value>2004:feature not implemented</value>
+  </data>
+  <data name="K2005" xml:space="preserve">
+    <value>2005:persona exists already</value>
+  </data>
+  <data name="K2006" xml:space="preserve">
+    <value>2006:persona doesn’t exist</value>
+  </data>
+  <data name="K2007" xml:space="preserve">
+    <value>2007:keychain blockchain transaction payload too large</value>
+  </data>
+  <data name="K2008" xml:space="preserve">
+    <value>2008:insufficient free funds (of layer 1 blockchain tokens) to fund the keychain blockchain transaction</value>
+  </data>
+  <data name="K2009" xml:space="preserve">
+    <value>2009:missing query result</value>
+  </data>
+  <data name="K2010" xml:space="preserve">
+    <value>2010:invalid keychain key type</value>
+  </data>
+  <data name="K2011" xml:space="preserve">
+    <value>2011:unconfirmed keychain tip</value>
+  </data>
+  <data name="K2012" xml:space="preserve">
+    <value>2012:immature keychain tip</value>
+  </data>
+  <data name="K2013" xml:space="preserve">
+    <value>2013:no confirmed keychain child trxn</value>
+  </data>
+  <data name="K2014" xml:space="preserve">
+    <value>2014:on-chain keychain has been finalized</value>
+  </data>
+  <data name="K2015" xml:space="preserve">
+    <value>2015:bad input</value>
+  </data>
+  <data name="K2016" xml:space="preserve">
+    <value>2016:no blockchain transaction payload data found</value>
+  </data>
+  <data name="K2017" xml:space="preserve">
+    <value>2017:keychain terminated</value>
+  </data>
+  <data name="K2018" xml:space="preserve">
+    <value>2018:malformed op return script</value>
+  </data>
+  <data name="K2019" xml:space="preserve">
+    <value>2019:error while trying to parse transaction payload</value>
+  </data>
+  <data name="K2020" xml:space="preserve">
+    <value>2020:error during data marshaling</value>
+  </data>
+  <data name="K2021" xml:space="preserve">
+    <value>2021:error during data unmarshaling</value>
+  </data>
+  <data name="K2022" xml:space="preserve">
+    <value>2022:an exception occurred at lower library levels</value>
+  </data>
+  <data name="K2023" xml:space="preserve">
+    <value>2023:query request to blockchain server failed</value>
+  </data>
+  <data name="K2024" xml:space="preserve">
+    <value>2024:reached the tip/leaf of the keychain</value>
+  </data>
+  <data name="K2025" xml:space="preserve">
+    <value>2025:received sentinel utxo value(s) from the blockchain server so unable to calculate a balance</value>
+  </data>
+  <data name="K2026" xml:space="preserve">
+    <value>2026:database has already been seeded</value>
+  </data>
+  <data name="K2027" xml:space="preserve">
+    <value>2027:database file already exists</value>
+  </data>
+  <data name="K2028" xml:space="preserve">
+    <value>2028:get new address failed unexpectedly</value>
+  </data>
+  <data name="K2029" xml:space="preserve">
+    <value>2029:local blockchain state is already up to date</value>
+  </data>
+  <data name="K2030" xml:space="preserve">
+    <value>2030:creation of a persona is already in progress and it is yet immature</value>
+  </data>
+  <data name="K2031" xml:space="preserve">
+    <value>2031:keychain tip certificate has expired</value>
+  </data>
+  <data name="K2032" xml:space="preserve">
+    <value>2032:ledger transaction contains an invalid signature</value>
+  </data>
+  <data name="K2033" xml:space="preserve">
+    <value>2033:ledger transactino requires a signature</value>
+  </data>
+  <data name="K2034" xml:space="preserve">
+    <value>2034:ledger response is required</value>
+  </data>
+  <data name="K2035" xml:space="preserve">
+    <value>2035:decryption by persona is not authorized in the given encrypted data</value>
+  </data>
+  <data name="K2036" xml:space="preserve">
+    <value>2036:no recognized signer for signed data</value>
+  </data>
+  <data name="K2037" xml:space="preserve">
+    <value>2037:bad keychain tip payload public key</value>
+  </data>
+  <data name="K2038" xml:space="preserve">
+    <value>2038:no persona set as active</value>
+  </data>
+  <data name="K2039" xml:space="preserve">
+    <value>2039:database is busy</value>
+  </data>
+  <data name="K2040" xml:space="preserve">
+    <value>2040:no keychain tip found</value>
+  </data>
+  <data name="K2041" xml:space="preserve">
+    <value>2041:license verification failed</value>
+  </data>
+  <data name="K2042" xml:space="preserve">
+    <value>2042:http request returned application-level error code</value>
+  </data>
+  <data name="K2043" xml:space="preserve">
+    <value>2043:http request returned protocol-level code other than 200</value>
+  </data>
+  <data name="K2044" xml:space="preserve">
+    <value>2044:null pointer was received for an object reference when non-null was expected</value>
+  </data>
+  <data name="K2045" xml:space="preserve">
+    <value>2045:memory allocation request failed</value>
+  </data>
+  <data name="K2046" xml:space="preserve">
+    <value>2046:input file does not exist</value>
+  </data>
+  <data name="K2047" xml:space="preserve">
+    <value>2047:record not found</value>
+  </data>
+  <data name="K2048" xml:space="preserve">
+    <value>2048:attempted to issue an asset that was issued by another entity</value>
+  </data>
+  <data name="K2049" xml:space="preserve">
+    <value>2049:authorizer’s ledger certificate signature failed verification</value>
+  </data>
+  <data name="K2050" xml:space="preserve">
+    <value>2050:ledger certificate’s target holder is not the active persona</value>
+  </data>
+  <data name="K2051" xml:space="preserve">
+    <value>2051:ledger transaction needs a rejection signature</value>
+  </data>
+  <data name="K2052" xml:space="preserve">
+    <value>2052:contact already exists in the database</value>
+  </data>
+  <data name="L0000" xml:space="preserve">
+    <value>【ログメッセージ】</value>
+  </data>
+  <data name="L0001" xml:space="preserve">
+    <value>ログインしました。</value>
+  </data>
+  <data name="L0002" xml:space="preserve">
+    <value>以下のメッセージダイアログが表示されました。\n{0}</value>
+  </data>
+  <data name="L0201" xml:space="preserve">
+    <value>暗号化時の試験確認：{0}</value>
+  </data>
+  <data name="L0201No" xml:space="preserve">
+    <value>[いいえ]が選択されました。</value>
+  </data>
+  <data name="L0201Yes" xml:space="preserve">
+    <value>[はい]が選択されました。</value>
+  </data>
+  <data name="M0000E" xml:space="preserve">
+    <value>【エラーメッセージ】</value>
+  </data>
+  <data name="M0000I" xml:space="preserve">
+    <value>【インフォメッセージ】</value>
+  </data>
+  <data name="M0000W" xml:space="preserve">
+    <value>【ワーニングメッセージ】</value>
+  </data>
+  <data name="M0001E" xml:space="preserve">
+    <value>アプリケーションは既に起動されています。\n複数起動することはできません。</value>
+  </data>
+  <data name="M0002E" xml:space="preserve">
+    <value>User IDが正しくありません。</value>
+  </data>
+  <data name="M0003" xml:space="preserve">
+    <value>初期設定中です。\nアプリケーションは閉じずにしばらくお待ちください</value>
+  </data>
+  <data name="M0004E" xml:space="preserve">
+    <value>初期設定が失敗しました。再度ログインしてください。</value>
+  </data>
+  <data name="M0005E" xml:space="preserve">
+    <value>ユーザーの設定に問題があります（Sub Nameが設定されていません）。\n管理者にご連絡ください。</value>
+  </data>
+  <data name="M0006Q" xml:space="preserve">
+    <value>初回設定：以下の内容であっていますか？\n  ・名前：{0}\n  ・Subname：{1}\n  ・Role：{2}</value>
+  </data>
+  <data name="M0007I" xml:space="preserve">
+    <value>初回ログインが完了しました。</value>
+  </data>
+  <data name="M0008E" xml:space="preserve">
+    <value>アプリケーションのcodeが設定されていません。</value>
+  </data>
+  <data name="M0010I" xml:space="preserve">
+    <value>試験と施設が登録されていません。</value>
+  </data>
+  <data name="M0101E" xml:space="preserve">
+    <value>{0}はすでに同名のファイルがあるためセットできません。\n（セットしたファイルはダブルクリックで削除できます）</value>
+  </data>
+  <data name="M0102E" xml:space="preserve">
+    <value>{0}は1MBを超えています。ファイルサイズの上限は1MBまでです。</value>
+  </data>
+  <data name="M0201I" xml:space="preserve">
+    <value>「{0}」の暗号化が完了しました。</value>
+  </data>
+  <data name="M0202E" xml:space="preserve">
+    <value>「{0}」が暗号化できませんでした。\n{1}</value>
+  </data>
+  <data name="M0203Q" xml:space="preserve">
+    <value>試験名：{0}について以下のファイルを暗号化しアップロードしますがよろしいでしょうか？{1}</value>
+  </data>
+  <data name="M0204I" xml:space="preserve">
+    <value>暗号化がキャンセルされました。</value>
+  </data>
+  <data name="M0205I" xml:space="preserve">
+    <value>選択した全ファイルの処理が終了しました。{0}</value>
+  </data>
+  <data name="M0205_1" xml:space="preserve">
+    <value>\n※暗号化できなかったファイルが残っています。</value>
+  </data>
+  <data name="M0206" xml:space="preserve">
+    <value>暗号化中</value>
+  </data>
+  <data name="M0207Q" xml:space="preserve">
+    <value>暗号化されていないファイルが残っていますがよろしいでしょうか。</value>
+  </data>
+  <data name="M0301" xml:space="preserve">
+    <value>ファイルリスト取得中</value>
+  </data>
+  <data name="M0302E" xml:space="preserve">
+    <value>ファイルリストの取得に失敗しました。</value>
+  </data>
+  <data name="M0303I" xml:space="preserve">
+    <value>復合化がキャンセルされました。</value>
+  </data>
+  <data name="M0304E" xml:space="preserve">
+    <value>{0}は既に存在するため復号化できません。</value>
+  </data>
+  <data name="M0305" xml:space="preserve">
+    <value>復合化中</value>
+  </data>
+  <data name="M0306I" xml:space="preserve">
+    <value>復号合化が完了しました。</value>
+  </data>
+  <data name="M0401I" xml:space="preserve">
+    <value>Audit Trailsが出力されました。</value>
+  </data>
+  <data name="M0402I" xml:space="preserve">
+    <value>Audit Trailsの出力がキャンセルされました。</value>
+  </data>
+  <data name="M0403I" xml:space="preserve">
+    <value>対象の期間にAudit Trailsがありませんでした。</value>
+  </data>
+  <data name="M0501I" xml:space="preserve">
+    <value>初回アクセスが確認できました。承認をおこなってください。</value>
+  </data>
+  <data name="M0502I" xml:space="preserve">
+    <value>初回アクセスが確認ぜきずタイムアウトしました。再度QRコードを表示してください。</value>
+  </data>
+  <data name="M0503I" xml:space="preserve">
+    <value>Subject Codeが承認されました。</value>
+  </data>
+  <data name="M0504I" xml:space="preserve">
+    <value>チェックが完了しました。QRコードを表示してスマートフォンで後続処理を行ってください。</value>
+  </data>
+  <data name="M0601Q" xml:space="preserve">
+    <value>署名を実行します。</value>
+  </data>
+  <data name="M0602E" xml:space="preserve">
+    <value>既に存在するためダウンロードできません。</value>
+  </data>
+  <data name="M0603I" xml:space="preserve">
+    <value>ダウンロードがキャンセルされました。</value>
+  </data>
+  <data name="M0604I" xml:space="preserve">
+    <value>ダウンロードが完了しました。</value>
+  </data>
+  <data name="M0605I" xml:space="preserve">
+    <value>ダウンロード中</value>
+  </data>
+  <data name="M0606I" xml:space="preserve">
+    <value>署名がキャンセルされました。</value>
+  </data>
+  <data name="M0607I" xml:space="preserve">
+    <value>署名中</value>
+  </data>
+  <data name="M0608I" xml:space="preserve">
+    <value>署名が完了しました。</value>
+  </data>
+  <data name="M0701I" xml:space="preserve">
+    <value>署名依頼が保存されました。</value>
+  </data>
+  <data name="M0801E" xml:space="preserve">
+    <value>対象データがありません。</value>
+  </data>
+  <data name="M0802E" xml:space="preserve">
+    <value>{0}は既に存在するため復号化できません。</value>
+  </data>
+  <data name="M0803I" xml:space="preserve">
+    <value>ダウンロードがキャンセルされました。</value>
+  </data>
+  <data name="M0804" xml:space="preserve">
+    <value>ダウンロード中</value>
+  </data>
+  <data name="M0805I" xml:space="preserve">
+    <value>ダウンロードが完了しました。</value>
+  </data>
+  <data name="M0901E" xml:space="preserve">
+    <value>エラーが発生しました：{0}</value>
+  </data>
+  <data name="M0902E" xml:space="preserve">
+    <value>Contact Listが取得できませんでした。</value>
+  </data>
+  <data name="M1001I" xml:space="preserve">
+    <value>ステータスが更新されました。</value>
+  </data>
+  <data name="M9000E" xml:space="preserve">
+    <value>想定外のエラーが発生しました。\n管理者へご連絡ください。\n\n----------------------------------------\n{0}</value>
+  </data>
+  <data name="MESSAGE_TITLE_ERROR" xml:space="preserve">
+    <value>エラー</value>
+  </data>
+  <data name="MESSAGE_TITLE_INFO" xml:space="preserve">
+    <value>情報</value>
+  </data>
+  <data name="MESSAGE_TITLE_QUESTION" xml:space="preserve">
+    <value>確認</value>
+  </data>
+  <data name="MESSAGE_TITLE_WARNING" xml:space="preserve">
+    <value>警告</value>
+  </data>
+</root>

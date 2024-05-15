@@ -1,0 +1,119 @@
+srin@SR19-033 brp-didvc-api-go % ab -n 1000 -c 10 -p test/vc.data.json -T application/json http://localhost:8080/api/vc
+This is ApacheBench, Version 2.3 <$Revision: 1903618 $>
+Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
+Licensed to The Apache Software Foundation, http://www.apache.org/
+
+Benchmarking localhost (be patient)
+Completed 100 requests
+Completed 200 requests
+Completed 300 requests
+Completed 400 requests
+Completed 500 requests
+Completed 600 requests
+Completed 700 requests
+Completed 800 requests
+Completed 900 requests
+Completed 1000 requests
+Finished 1000 requests
+
+
+Server Software:        
+Server Hostname:        localhost
+Server Port:            8080
+
+Document Path:          /api/vc
+Document Length:        920 bytes
+
+Concurrency Level:      10
+Time taken for tests:   2.107 seconds
+Complete requests:      1000
+Failed requests:        0
+Total transferred:      1044000 bytes
+Total body sent:        841000
+HTML transferred:       920000 bytes
+Requests per second:    474.61 [#/sec] (mean)
+Time per request:       21.070 [ms] (mean)
+Time per request:       2.107 [ms] (mean, across all concurrent requests)
+Transfer rate:          483.88 [Kbytes/sec] received
+                        389.79 kb/s sent
+                        873.67 kb/s total
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        0    0   0.1      0       1
+Processing:    14   20   7.6     18      86
+Waiting:       14   20   7.6     18      86
+Total:         15   21   7.7     19      87
+
+Percentage of the requests served within a certain time (ms)
+  50%     19
+  66%     19
+  75%     20
+  80%     21
+  90%     27
+  95%     31
+  98%     37
+  99%     52
+ 100%     87 (longest request)
+srin@SR19-033 brp-didvc-api-go % 
+srin@SR19-033 brp-didvc-api-go % 
+srin@SR19-033 brp-didvc-api-go % 
+srin@SR19-033 brp-didvc-api-go % 
+srin@SR19-033 brp-didvc-api-go % ab -n 1000 -c 10 -p test/vp.data.json -T application/json http://localhost:8080/api/vp
+This is ApacheBench, Version 2.3 <$Revision: 1903618 $>
+Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
+Licensed to The Apache Software Foundation, http://www.apache.org/
+
+Benchmarking localhost (be patient)
+Completed 100 requests
+Completed 200 requests
+Completed 300 requests
+Completed 400 requests
+Completed 500 requests
+Completed 600 requests
+Completed 700 requests
+Completed 800 requests
+Completed 900 requests
+Completed 1000 requests
+Finished 1000 requests
+
+
+Server Software:        
+Server Hostname:        localhost
+Server Port:            8080
+
+Document Path:          /api/vp
+Document Length:        1384 bytes
+
+Concurrency Level:      10
+Time taken for tests:   2.108 seconds
+Complete requests:      1000
+Failed requests:        0
+Total transferred:      1509000 bytes
+Total body sent:        1594000
+HTML transferred:       1384000 bytes
+Requests per second:    474.32 [#/sec] (mean)
+Time per request:       21.083 [ms] (mean)
+Time per request:       2.108 [ms] (mean, across all concurrent requests)
+Transfer rate:          698.97 [Kbytes/sec] received
+                        738.34 kb/s sent
+                        1437.31 kb/s total
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        0    0   0.1      0       1
+Processing:    14   20   5.9     19      71
+Waiting:       14   20   5.9     19      71
+Total:         14   21   6.0     19      71
+
+Percentage of the requests served within a certain time (ms)
+  50%     19
+  66%     20
+  75%     21
+  80%     22
+  90%     28
+  95%     30
+  98%     39
+  99%     47
+ 100%     71 (longest request)
+srin@SR19-033 brp-didvc-api-go % 

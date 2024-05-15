@@ -1,0 +1,20 @@
+{
+  "typescript": {
+    "quoteStyle": "preferSingle",
+    "quoteProps": "asNeeded",
+    "singleBodyPosition": "sameLine",
+    "operatorPosition": "sameLine",
+    "arrowFunction.useParentheses": "force",
+    "binaryExpression.linePerExpression": true,
+    "jsx.quoteStyle": "preferDouble"
+  },
+  "json": {},
+  "markdown": {},
+  "includes": ["**/*.{ts,tsx,js,jsx,cjs,mjs,json,md}"],
+  "excludes": ["**/node_modules", "**/*-lock.json", "/public/build", "/build"],
+  "plugins": [
+    "https://plugins.dprint.dev/typescript-0.85.1.wasm",
+    "https://plugins.dprint.dev/json-0.17.4.wasm",
+    "https://plugins.dprint.dev/markdown-0.15.3.wasm"
+  ]
+}

@@ -1,0 +1,80 @@
+{
+  "hosting": {
+    "public": "front/out",
+    "cleanUrls": true,
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [ {
+      "source": "/hello",
+      "function": "hello",
+      "region": "asia-northeast1"
+    },
+    {
+      "source": "/add",
+      "function": "add",
+      "region": "asia-northeast1"
+    },
+    {
+      "source": "/addJson",
+      "function": "addJson",
+      "region": "asia-northeast1"
+    },
+    {
+      "source": "/qsGet",
+      "function": "qsGet",
+      "region": "asia-northeast1"
+    },
+    {
+      "source": "/jsonGet",
+      "function": "jsonGet",
+      "region": "asia-northeast1"
+    },
+    {
+      "source": "/credentialOfferIssue",
+      "function": "credentialOfferIssue",
+      "region": "asia-northeast1"
+    },
+    {
+      "source": "/authorization",
+      "function": "authorization",
+      "region": "asia-northeast1"
+    },
+    {
+      "source": "/decision",
+      "function": "decision",
+      "region": "asia-northeast1"
+    },
+    {
+      "source": "/token",
+      "function": "token",
+      "region": "asia-northeast1"
+    }
+    ],
+    "headers": [ {
+      "source": "/.well-known/openid-configuration",
+      "headers": [ {
+        "key": "Access-Control-Allow-Origin",
+        "value": "*"
+      } ]
+    } ]
+  },
+  "functions": [
+    {
+      "source": "functions",
+      "codebase": "default",
+      "ignore": [
+        "node_modules",
+        ".git",
+        "firebase-debug.log",
+        "firebase-debug.*.log"
+      ],
+      "predeploy": [
+        "npm --prefix \"$RESOURCE_DIR\" run lint",
+        "npm --prefix \"$RESOURCE_DIR\" run build"
+      ]
+    }
+  ]
+}

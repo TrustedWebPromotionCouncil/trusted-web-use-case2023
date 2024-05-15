@@ -1,0 +1,12 @@
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+*'
+
+name: trusted-web/prod-processing
+
+jobs:
+  call_workflow:
+    uses: Institution-for-a-Global-Society/trusted-web-infra/.github/workflows/prod-api-processing.yaml@main
+    secrets: inherit

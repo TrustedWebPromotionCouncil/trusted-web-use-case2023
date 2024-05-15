@@ -1,0 +1,14 @@
+{
+	"name": "java-oauth-server",
+	"dockerComposeFile": ["../docker-compose.yml"],
+	"service": "java-oauth-server",
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"vscjava.vscode-java-pack"
+			]
+		}
+	},
+	"workspaceFolder": "/workspace",
+	"forwardPorts": [8080]
+}

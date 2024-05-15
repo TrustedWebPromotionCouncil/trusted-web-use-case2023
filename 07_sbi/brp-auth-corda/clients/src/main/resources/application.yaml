@@ -1,0 +1,38 @@
+info:
+  app:
+    name: brp-webserver
+    version: 1.0.0
+spring:
+  jmx:
+    default-domain: brpjmx
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 10MB
+      max-request-size: 10MB
+management:
+  endpoint:
+    health:
+      show-details: WHEN_AUTHORIZED
+server:
+  compression:
+    enabled: false
+  http2:
+    enabled: true
+  port: 8085
+  servlet:
+    context-path: /brp
+  tomcat:
+    accesslog:
+      directory: logs
+config:
+  rpc:
+    host: brp-corda
+    port: 10007
+    username: testuser
+    password: password
+    role: AUTH_ORG
+    ssl:
+      enabled: false
+      truststorepath: none
+      truststorepassword: none

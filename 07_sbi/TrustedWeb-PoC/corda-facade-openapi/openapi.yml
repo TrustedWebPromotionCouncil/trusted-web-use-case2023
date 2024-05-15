@@ -1,0 +1,501 @@
+openapi: 3.1.0
+info:
+  title: Corda APIs
+  version: v1.0
+servers:
+  - url: http://localhost:8085/brp
+paths:
+  /corda/version:
+    get:
+      responses:
+        '200':
+          description: 成功
+          content:
+            text/plain:
+              schema:
+                type: string
+              examples:
+                version:
+                  value: v1.0
+
+  /corda/get-corda-network-info:
+    get:
+      description: |
+        Cordaネットワーク内のすべてのノードのCorda Identityを取得します。
+      responses:
+        '200':
+          description: 'OK: リクエストが成功しました。'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+              examples:
+                info:
+                  value:
+                    - 'id: [OU=AuthDept, O=VCAuthOrgConsortium000002, L=Tokyo, C=JP]'
+                    - 'id: [OU=Notary1, O=SbiR3Japan, L=Tokyo, C=JP, OU=Notary, O=SbiR3Japan, L=Tokyo, C=JP]'
+                    - 'id: [OU=AuthDept, O=VCAuthOrg, L=Tokyo, C=JP]'
+                    - 'id: [OU=AuthDept, O=VCAuthCom2, L=Tokyo, C=JP]'
+                    - 'id: [OU=AuthDept, O=VCAuthCom1, L=Tokyo, C=JP]'
+                    - 'id: [OU=AuthDept, O=VCAuthOrgConsortium000001, L=Tokyo, C=JP]'
+
+  /corda/get-my-identity:
+    get:
+      description: |
+        呼び出し元ノードのX500組織名を取得します。
+      responses:
+        '200':
+          description: 'OK: リクエストが成功しました。'
+          content:
+            text/plain:
+              schema:
+                type: string
+              examples:
+                identity:
+                  value: VCAuthOrgConsortium000002
+
+  /corda/get-my-role:
+    get:
+      description: |
+        呼び出し元ノードのRoleを取得します
+        (例、 公的機関：AUTH_ORG、失効管理体：AUTH_ORG_CONSORTIUM、認証機構：AUTH_COMPANY)。
+      responses:
+        '200':
+          description: 'OK: リクエストが成功しました。'
+          content:
+            text/plain:
+              schema:
+                type: string
+              examples:
+                role:
+                  value: AUTH_ORG_CONSORTIUM
+
+  /corda/vc-json:
+    post:
+      description: |
+        リクエストパラメータに基づいてVCを生成。
+        Role制限：　失効管理体　OR　認証機構
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                authOrgName:
+                  description: 公的機関名
+                  type: string
+                vcID:
+                  description: VCのID
+                  type: string
+                validityPeriod:
+                  description: 有効期間（秒単位）
+                  type: integer
+              required:
+                - authOrgName
+                - vcID
+                - validityPeriod
+            examples:
+              request:
+                value:
+                  authOrgName: VCAuthOrg
+                  vcID: VCAuthOrgConsortium000002-vcID001
+                  validityPeriod: 31536000
+      responses:
+        '200':
+          description: 'OK: リクエストが成功しました。'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VerifiableCredential'
+              examples:
+                verifiableCredential:
+                  $ref: '#/components/examples/VerifiableCredential'
+        '401':
+          $ref: '#/components/responses/WrongRole'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /corda/vc-json-list:
+    get:
+      description: |
+        VC(JSONデータ)リストを取得。
+        Role制限：　失効管理体　OR　認証機構
+      responses:
+        '200':
+          $ref: '#/components/responses/VcJsonList'
+        '401':
+          $ref: '#/components/responses/WrongRole'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /corda/vc-json-list-for-auth-consortium:
+    get:
+      description: |
+        失効管理体用のVC（JSONデータ）リストを取得。
+        Role制限：　公的機関
+      responses:
+        '200':
+          $ref: '#/components/responses/VcJsonList'
+        '401':
+          $ref: '#/components/responses/WrongRole'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /corda/vc-json-list-for-auth-company:
+    get:
+      description: |
+        認証機構用のVC（JSONデータ）リストを取得。
+        Role制限：　公的機関
+      responses:
+        '200':
+          $ref: '#/components/responses/VcJsonList'
+        '401':
+          $ref: '#/components/responses/WrongRole'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /corda/revocation/vc:
+    post:
+      description: |
+        事業所用VCに使用するUUIDを発番
+        Role制限：　認証機構
+      responses:
+        '200':
+          $ref: '#/components/responses/IssuedUuid'
+        '401':
+          $ref: '#/components/responses/WrongRole'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /corda/revocation/vc/{uuid}:
+    parameters:
+      - $ref: '#/components/parameters/uuidParam'
+
+    delete:
+      description: |
+        UUIDで指定された事業所用VCを失効させる
+        Role制限：　認証機構
+      responses:
+        '200':
+          $ref: '#/components/responses/BlockHash'
+        '401':
+          $ref: '#/components/responses/WrongRole'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+    put:
+      description: |
+        UUIDで指定された事業所用VCを失効させ、新UUIDを発番
+        Role制限：　認証機構
+      responses:
+        '200':
+          $ref: '#/components/responses/IssuedUuid'
+        '401':
+          $ref: '#/components/responses/WrongRole'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /corda/revocation/vc-status/{uuid}:
+    get:
+      description: |
+        uuidのVCの認証状態を取得
+        Role制限：　失効管理体　OR　認証機構
+      parameters:
+        - $ref: '#/components/parameters/uuidParam'
+      responses:
+        '200':
+          $ref: '#/components/responses/VcStatus'
+        '401':
+          $ref: '#/components/responses/WrongRole'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /corda/revocation/vc-valid-list:
+    get:
+      description: |
+        有効の事業所用VC（UUID）の一覧を取得
+        Role制限：　失効管理体　OR　認証機構
+      responses:
+        '200':
+          $ref: '#/components/responses/UuidList'
+        '401':
+          $ref: '#/components/responses/WrongRole'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /corda/revocation/vc-revoked-list:
+    get:
+      description: |
+        失効ずみの事業所用VC（UUID）の一覧を取得
+        Role制限：　失効管理体　OR　認証機構
+      responses:
+        '200':
+          $ref: '#/components/responses/UuidList'
+        '401':
+          $ref: '#/components/responses/WrongRole'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+components:
+  parameters:
+    uuidParam:
+      in: path
+      name: uuid
+      required: true
+      schema:
+        type: string
+        format: uuid
+  responses:
+    VcStatus:
+      description: 'OK: リクエストが成功しました。'
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+            examples:
+              - 'status': 'Valid'
+    VcJsonList:
+      description: 'OK: リクエストが成功しました。'
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/VerifiableCredential'
+          examples:
+            verifiableCredentials:
+              $ref: '#/components/examples/VerifiableCredentials'
+    UuidList:
+      description: 'OK: リクエストが成功しました。'
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                uuid:
+                  type: string
+                  format: uuid
+              required:
+                - uuid
+          examples:
+            uuidList:
+              $ref: '#/components/examples/UuidList'
+    IssuedUuid:
+      description: 'OK: リクエストが成功しました。'
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              blockHash:
+                type: string
+              uuid:
+                type: string
+                format: uuid
+            required:
+              - blockHash
+              - uuid
+          examples:
+            issuedUuid:
+              $ref: '#/components/examples/IssuedUuid'
+
+    BlockHash:
+      description: 'OK: リクエストが成功しました。'
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              blockHash:
+                type: string
+            required:
+              - blockHash
+          examples:
+            issuedUuid:
+              $ref: '#/components/examples/BlockHash'
+
+    WrongRole:
+      description: 'Unauthorized: 期待されていないRoleです。'
+      content:
+        text/plain:
+          type: string
+          example: 'Role: xxx is not expected.'
+    InternalServerError:
+      description: 'Internal Server Error: Cordaの例外が発生しました。'
+      content:
+        text/plain:
+          type: string
+          description: エラーメッセージ
+
+  schemas:
+    Issuer:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+    Proof:
+      type: object
+      properties:
+        type:
+          type: string
+        created:
+          type: string
+          format: date-time
+        proofPurpose:
+          type: string
+        verificationMethod:
+          type: string
+        signatureValue:
+          type: string
+    VerificationMethod:
+      type: object
+      properties:
+        controller:
+          type: string
+        id:
+          type: string
+        publicKeyMultibase:
+          type: string
+        type:
+          type: string
+      required:
+        - id
+        - type
+        - controller
+        - publicKeyMultibase
+    DIDDocument:
+      type: object
+      properties:
+        '@context':
+          type: string
+        id:
+          type: string
+        verificationMethod:
+          type: array
+          items:
+            $ref: '#/components/schemas/VerificationMethod'
+      required:
+        - '@context'
+        - id
+        - verificationMethod
+    CredentialSubject:
+      type: object
+      properties:
+        blockHash:
+          type: string
+        didDocument:
+          $ref: '#/components/schemas/DIDDocument'
+        uuid:
+          type: string
+      required:
+        - didDocument
+        - blockHash
+        - uuid
+    VerifiableCredential:
+      description: 作成時に go API との通信に失敗した場合は null
+      type:
+        - 'null' 
+        - object
+      properties:
+        '@context':
+          type: array
+          items:
+            type: string
+        id:
+          type: string
+        type:
+          type: array
+          items:
+            type: string
+        credentialSubject:
+          $ref: '#/components/schemas/CredentialSubject'
+        issuer:
+          $ref: '#/components/schemas/Issuer'
+        validFrom:
+          type: string
+          format: date-time
+        validUntil:
+          type: string
+          format: date-time
+        proof:
+          $ref: '#/components/schemas/Proof'
+  examples:
+    VerifiableCredential:
+      value: &verifiableCredentialExample
+        '@context':
+          - https://www.w3.org/2018/credentials/v2
+        id: VCAuthOrgConsortium000002-vcIDTest001
+        type:
+          - VerifiableCredential
+        credentialSubject:
+          blockHash: FD20B44BAA28031320E2A46FB4D9A33D4BFD110698DFB4C4F3AD2453A13DCBF8
+          didDocument:
+            '@context': https://w3id.org/did/v1
+            id: did:detc:VCAuthOrgConsortium000002
+            verificationMethod:
+              - controller: did:detc:VCAuthOrgConsortium000002
+                id: did:detc:VCAuthOrgConsortium000002#vcauth-consortium2-key
+                publicKeyMultibase: z2zMuJ87g76DJ3ot7BaTLBwVt44fnkw6mtUQLrH5cJHJL
+                type: Ed25519VerificationKey2018
+          uuid: 3ac32eaa-c6a4-4c05-9bc3-061d8f1ee467
+        issuer:
+          id: did:detc:VCAuthOrg
+          name: VCAuthOrg
+        validFrom: 2023-07-28T10:19:55+09:00
+        validUntil: 2024-07-27T10:19:55+09:00
+        proof:
+          type: Ed25519Signature2018
+          created: 2023-07-28T01:19:55Z
+          proofPurpose: assertionMethod
+          verificationMethod: did:detc:VCAuthOrg#vcauth-org-key
+          signatureValue: z64M45TSHEzJ2e52fXAYbgTJQ6qY74L8DS2vuXa9WbuhCu8X5kdZfQ5zNffTvcujejVrr8sbUZ2XoYSq3JdrRuKWg
+    VerifiableCredentials:
+      value:
+        - *verifiableCredentialExample
+        - '@context':
+            - https://www.w3.org/2018/credentials/v2
+          id: VCAuthOrgConsortium000002-vcID001
+          type:
+            - VerifiableCredential
+          credentialSubject:
+            blockHash: 8ECB5DEB4E98E5421CD3A55F5AFDA6C1E34F2E3F640B2266B0920C0F3CF24E6A
+            didDocument:
+              '@context': https://w3id.org/did/v1
+              id: did:detc:VCAuthOrgConsortium000002
+              verificationMethod:
+                - controller: did:detc:VCAuthOrgConsortium000002
+                  id: did:detc:VCAuthOrgConsortium000002#vcauth-consortium2-key
+                  publicKeyMultibase: z2zMuJ87g76DJ3ot7BaTLBwVt44fnkw6mtUQLrH5cJHJL
+                  type: Ed25519VerificationKey2018
+            uuid: 33a69893-5c3b-4e79-9c81-6bb5199c41d6
+          issuer:
+            id: did:detc:VCAuthOrg
+            name: VCAuthOrg
+          validFrom: 2023-07-20T19:06:24+09:00
+          validUntil: 2023-07-27T19:06:24+09:00
+          proof:
+            type: Ed25519Signature2018
+            created: 2023-07-20T10:06:24Z
+            proofPurpose: assertionMethod
+            verificationMethod: did:detc:VCAuthOrg#vcauth-org-key
+            signatureValue: zqPZG9mxUzgE7X5AQeU25PprnHKQuJBUDmR4LimJK7oRGvfnPHCFyMkVK7oZuA81gTKFYSkqLwUAMcZ1aZafQpwP
+    UuidList:
+      value:
+        - uuid: 5d052bcf-97a4-45a5-9072-36a9c5b84b01
+        - uuid: 5d052bcf-97a4-45a5-9072-36a9c5b84b02
+    IssuedUuid:
+      value:
+        blockHash: 431773379474AC97AC38A742A0174A299F33460F7F6DE29E4E9D379BD0D148E5
+        uuid: 5d052bcf-97a4-45a5-9072-36a9c5b84bad
+    BlockHash:
+      value:
+        blockHash: 431773379474AC97AC38A742A0174A299F33460F7F6DE29E4E9D379BD0D148E5

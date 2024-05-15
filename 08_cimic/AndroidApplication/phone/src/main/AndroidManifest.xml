@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />  <!-- カメラ機能を必須 -->
+    <uses-permission android:name="android.permission.CAMERA" />
+<!--    <uses-permission android:name="android.permission.WAKE_LOCK" />-->  <!-- スリープ状態での動作(CPU をオンのままにする)を許可 -->
+    <!-- ネットワーク接続 -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />    <!-- 外部ストレージへの書き込み -->
+
+    <!--    android:usesCleartextTraffic="true"-->
+    <!--    android:networkSecurityConfig="@xml/network_security_config"-->
+    <application
+        android:name="com.example.wearable.trustapp.biowatcher.MainApplication"
+        android:allowBackup="false"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:networkSecurityConfig="@xml/network_security_config"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.TrustedWebApp"
+        tools:replace="android:allowBackup"
+        tools:targetApi="28">
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+        <!-- 縦方向に固定 : android:screenOrientation="portrait"-->
+        <activity
+            android:name="com.example.wearable.trustapp.biowatcher.views.MainActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.TrustedWebApp">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <service android:name="com.example.wearable.trustapp.biowatcher.service.DataListenerService"
+            android:exported="true">
+            <intent-filter>
+                <!-- listeners receive events that match the action and data filters -->
+                <action android:name="com.google.android.gms.wearable.DATA_CHANGED" />
+                <data android:scheme="wear" android:host="*" android:pathPrefix="/mobile" />
+            </intent-filter>
+        </service>
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_path"/>
+        </provider>
+    </application>
+
+</manifest>

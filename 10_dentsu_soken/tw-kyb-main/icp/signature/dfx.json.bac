@@ -1,0 +1,30 @@
+{
+  "canisters": {
+    "signature_backend": {
+      "type": "custom",
+      "wasm": "target/wasm32-unknown-unknown/release/signature_backend.wasm",
+      "candid": "src/signature_backend/signature_backend.did",
+      "build": "sh ./build.sh signature_backend"
+    },
+    "signature_frontend": {
+      "dependencies": [
+        "signature_backend"
+      ],
+      "frontend": {
+        "entrypoint": "src/signature_frontend/out/index.html"
+      },
+      "source": [
+        "src/signature_frontend/out"
+      ],
+      "type": "assets"
+    }
+  },
+  "defaults": {
+    "build": {
+      "args": "",
+      "packtool": ""
+    }
+  },
+  "output_env_file": ".env",
+  "version": 1
+}

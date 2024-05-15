@@ -1,0 +1,12 @@
+@startuml
+title シーケンス図
+事業所 -> サーバ : GET /request-id
+サーバ -> サーバ : リクエストIDとnonceを生成し、ペアで記録する
+サーバ --> 事業所 : 例 { "requestId": "6de1564a-a7f0-416c-aa48-495b333a708e", "exp": 1687824005 }\nリクエストIDはUUID(多分v4)とする
+事業所 -> サーバ : GET /challenge\nヘッダにリクエストIDを入れる Request-ID: 6de1564a-a7f0-416c-aa48-495b333a708e
+サーバ --> 事業所 : 例 { "challenge": "d7675485-a076-4ecb-a0ac-f9b9ee43547e" }\nnonceはUUIDv4とする
+事業所 -> サーバ : POST /vc\nリクエストボディで自己署名VCを送る\nVCの中にchallengeを含める\nヘッダにリクエストIDを入れる
+サーバ -> サーバ : リクエストIDとchallengeが合っていることを確認する
+サーバ -> サーバ : VCの署名対象部分を、公開鍵と署名の値で検証する
+サーバ --> 事業所 : VCとステータスを返す
+@enduml

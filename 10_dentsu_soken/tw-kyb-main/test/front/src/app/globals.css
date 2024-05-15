@@ -1,0 +1,41 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.vc-green {
+  background: linear-gradient(
+    180deg,
+    #fff -3.33%,
+    #dcdcdc 9.24%,
+    #ddd 20.32%,
+    rgba(93, 206, 65, 0.3) 99.9%
+  );
+}
+
+.vc-orange {
+  background: linear-gradient(
+    180deg,
+    #fff -3.33%,
+    #dcdcdc 9.24%,
+    #ddd 19.79%,
+    rgba(242, 163, 45, 0.3) 99.9%
+  );
+}
+
+.card-reverse {
+  transform: rotateY(180deg);
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #989898;
+  border-radius: 8px;
+}
+
+.triangle {
+  clip-path: polygon(0 0, 100% 50%, 0 100%);
+}

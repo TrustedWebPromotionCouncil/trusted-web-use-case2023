@@ -1,0 +1,21 @@
+{
+  "editor.formatOnSave": true,
+  "editor.quickSuggestions": {
+    "strings": true
+  },
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
+  "eslint.workingDirectories": [
+    "/app/signature/signature_frontend",
+  ],
+  "rust-analyzer.linkedProjects": [
+    "./signature/src/signature_backend/Cargo.toml",
+    "./signature/src/signature_backend/Cargo.toml",
+    "./signature/src/signature_backend/Cargo.toml",
+    "./signature/src/signature_backend/Cargo.toml",
+    "./signature/src/signature_backend/Cargo.toml",
+    "./signature/src/signature_backend/Cargo.toml"
+  ],
+  "rust-analyzer.showUnlinkedFileNotification": false
+}

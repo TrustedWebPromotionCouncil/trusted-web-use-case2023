@@ -1,0 +1,34 @@
+version: '3'
+
+services:
+  ui-matching:
+    build:
+      context: .
+      target: local
+    labels:
+      - traefik.http.middlewares.ui-matching.stripprefix.prefixes=/
+      - traefik.http.routers.ui-matching-general.entrypoints=general
+      - traefik.http.routers.ui-matching-general.rule=PathPrefix(`/`)
+      - traefik.http.routers.ui-matching-general.middlewares=cors-general,ui-matching
+      - traefik.http.services.ui-matching.loadbalancer.server.port=19132
+      # - traefik.http.services.ui-matching.loadbalancer.healthcheck.path=
+      - traefik.http.services.ui-matching.loadbalancer.healthcheck.port=19132
+      - traefik.http.services.ui-matching.loadbalancer.healthcheck.followredirects=false
+      - traefik.http.services.ui-matching.loadbalancer.healthcheck.interval=1s
+    command: sh -c "yarn && yarn serve"
+    working_dir: /root/app
+    environment:
+      VITE_WEB_ENDPOINT: http://localhost:19132
+      VITE_API_ENDPOINT: http://localhost:10000/api/matching
+      VITE_STORAGE_KEY: 'trusted-web-matching'
+      VITE_PORT: 19132
+    ports:
+      - 19132:19132
+    volumes:
+      - type: bind
+        source: .
+        target: /root/app
+      - ui-matching_node_modules:/root/app/node_modules
+
+volumes:
+  ui-matching_node_modules:

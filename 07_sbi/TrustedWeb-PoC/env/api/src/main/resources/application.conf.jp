@@ -1,0 +1,41 @@
+ktor {
+  development = false
+  development = ${?API_DEVELOPMENT}
+
+  deployment {
+    port = 8080
+  }
+  application {
+    modules = [com.ttw.api.ApplicationKt.module]
+  }
+}
+
+config {
+  database {
+    url = ${DATABASE_URL}
+  }
+  authId {
+    expirationSeconds = 3600
+    expirationSeconds = ${?AUTH_EXPIRATION_SECONDS}
+    headerName = "TTW-Auth-Id"
+  }
+  releaseVersion {
+    hash = "none"
+    hash = ${?GIT_COMMIT_SHORT_HASH}
+    headerName = "TTW-Release-Version"
+  }
+  digitalCertificateOrganization {
+    id = "did:detc:JPDigitalCertificateOrganization1:T1U9QXV0aERlcHQsIE89VkNBdXRoQ29tMSwgTD1Ub2t5bywgQz1KUA%3D%3D"
+    name = "JP Digital Certificate Organization 1"
+    credentialIssuer = "JP Accreditation Organization"
+  }
+  externalService {
+    uuidUrl = ${UUID_URL}
+    keyNameUrl = ${KEY_NAME_URL}
+    vcJsonListUtl = ${VC_JSON_LIST_URL}
+    vpUrl = ${VP_URL}
+    vcUrl = ${VC_URL}
+    revocation_base_url = ${REVOCATION_BASE_URL}
+    revocation_endpoints = ${REVOCATION_ENDPOINTS}
+  }
+}
